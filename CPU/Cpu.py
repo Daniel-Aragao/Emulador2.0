@@ -12,7 +12,7 @@ class Cpu(threading.Thread):
         self.registradores = {"A": 0, "B": 0, "C": 0, "D": 0, "CI": 0}
         self.barramento = barramento
         self.loops = []
-        self.passo = Consts.PASSO_SINAL
+        self.passo = Cpu.PASSO_SINAL
         self.tipoSinal = Consts.T_L_INSTRUCAO
 
     """
@@ -80,10 +80,8 @@ class Cpu(threading.Thread):
 
     def enviar_sinal(self):
         if self.registradores["CI"] != -1:
-            sinal = [i for i in Consts.T_LENGTH]
-            sinal[Consts.T_ORIGEM] = Consts.CPU
-            sinal[Consts.T_DESTINO] = Consts.RAM
-            sinal[Consts.T_DADOS] = self.registradores["CI"]
-            sinal[Consts.T_TIPO] = self.tipoSinal
+            sinal = Consts.get_vetor_conexao(Consts.CPU, Consts.RAM, self.registradores["CI"], self.tipoSinal)
 
             self.barramento.enviar_sinal(sinal)
+
+            self.passo = Cpu.PASSO_ENDERECO_DADO

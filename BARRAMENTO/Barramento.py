@@ -87,7 +87,7 @@ class Barramento(threading.Thread):
 
         enviado = 0
 
-        for dado in self.fila_dado:
+        for dado in self.fila_dados:
             tamanhodado = len(dado)
             if enviado + tamanhodado > Consts.larguraBanda:
                 break
