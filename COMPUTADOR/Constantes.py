@@ -16,7 +16,11 @@ larguraBanda = (clock * larguraBarramento) // 8
 MEMORIA_X_MIN = 0
 MEMORIA_X_MAX = 19
 MEMORIA_X = 0
-MEMORIA_CODE_SLICE = 1/2
+MEMORIA_CODE_SLICE = 1.0/2
+
+
+def get_memoria_code_sliced(t):
+    return int(t * MEMORIA_CODE_SLICE)
 
 # tamanho de uma instrucao
 CODE_SIZE = 5

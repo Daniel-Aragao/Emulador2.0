@@ -85,3 +85,9 @@ class Cpu(threading.Thread):
             self.barramento.enviar_sinal(sinal)
 
             self.passo = Cpu.PASSO_ENDERECO_DADO
+
+    def receber_endereco(self, endereco):
+        pass
+
+    def receber_dado(self, dado):
+        pass

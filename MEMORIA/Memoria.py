@@ -19,7 +19,8 @@ class Memoria(threading.Thread):
             log.write_line('tamanho de memoria muito grande, o tamanho maximo foi escolhido')
 
         self.tamanho = 32 * 2**tamanho
-        self.memoria = [self.tamanho]
+        self.code_slice = Consts.get_memoria_code_sliced(self.tamanho)
+        self.memoria = [0 for i in range(self.tamanho)]
         self.sinais = Queue()
         self.barramento = barramento
 
@@ -53,8 +54,9 @@ class Memoria(threading.Thread):
                 # pego na entrada e ponho na posicao do ci e fico esperando via loop
                 pass
 
-            proximoendereco = Memoria.proximo_endereco(sinal[Consts.T_DADOS])
-            self.barramento.enviar_endereco(proximoendereco)
+            proximoendereco = self.proximo_endereco(sinal[Consts.T_DADOS])
+            endereco = Consts.get_vetor_conexao(Consts.RAM, Consts.CPU, proximoendereco, tipo)
+            self.barramento.enviar_endereco(endereco)
 
             instrucao = self.ler_instrucao(sinal[Consts.T_DADOS])
 
@@ -64,7 +66,7 @@ class Memoria(threading.Thread):
 
         elif tipo == Consts.T_L_VALOR:
             endereco = sinal[Consts.T_DADOS]
-            endereco += Consts.MEMORIA_CODE_SLICE
+            endereco += self.code_slice
 
             dado = Consts.get_vetor_conexao(Consts.RAM, Consts.CPU, self.memoria[endereco], tipo)
 
@@ -73,7 +75,7 @@ class Memoria(threading.Thread):
         elif tipo == Consts.T_E_VALOR:
             endereco, novovalor = sinal[Consts.T_DADOS]
 
-            endereco += Consts.MEMORIA_CODE_SLICE
+            endereco += self.code_slice
             if self.tamanho < endereco:
                 raise MemoryError("Posicao de memoria inexistente")
             self.memoria[endereco] = novovalor
@@ -84,17 +86,15 @@ class Memoria(threading.Thread):
     def tratar_sinal_entrada(self, sinal):
         pass
 
-    @staticmethod
-    def proximo_endereco(endereco):
-        return (endereco + Consts.CODE_SIZE) % Consts.MEMORIA_CODE_SLICE
+    def proximo_endereco(self, endereco):
+        return (endereco + Consts.CODE_SIZE) % self.code_slice
 
-    @staticmethod
-    def anterior_endereco(endereco):
-        return (endereco - Consts.CODE_SIZE) % Consts.MEMORIA_CODE_SLICE
+    def anterior_endereco(self, endereco):
+        return (endereco - Consts.CODE_SIZE) % self.code_slice
 
     def ler_instrucao(self, endereco):
-        if endereco > Consts.MEMORIA_CODE_SLICE:
+        if endereco > self.code_slice:
             raise MemoryError("instrucoes devem ser encontradas ate a posicao "
-                              "de memoria "+Memoria.anterior_endereco(Consts.MEMORIA_CODE_SLICE))
+                              "de memoria "+str(Memoria.anterior_endereco(self.code_slice)))
 
         return At.sub_array(self.memoria, endereco, Consts.CODE_SIZE)
