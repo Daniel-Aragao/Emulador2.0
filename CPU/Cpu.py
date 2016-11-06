@@ -57,6 +57,7 @@ class Cpu(threading.Thread):
                 pass
             elif self.passo == Cpu.PASSO_PROCESSAMENTO:
                 """
+                se o dado for o fim do codigo running vira false e dar um continue
                 se a lista de loops NAO for vazia
                     se a instrucao nao eh fim de loop
                         se ci igual ao inicio do primeiro loop

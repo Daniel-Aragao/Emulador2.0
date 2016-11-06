@@ -1,0 +1,6 @@
+mov A, 14
+inc A
+mov B, 10
+add B, A
+label 13
+

@@ -22,7 +22,6 @@ class Barramento(threading.Thread):
 
         self.fila_sinal.append(sinal)
 
-        # time.sleep(Consts.sleep)
         self.sinalLock.release()
 
     # Estrutura de Enderecos
@@ -31,7 +30,6 @@ class Barramento(threading.Thread):
 
         self.fila_endereco.append(endereco)
 
-        # time.sleep(Consts.sleep)
         self.enderecoLock.release()
 
     # Estrutura de dados
@@ -40,7 +38,6 @@ class Barramento(threading.Thread):
 
         self.fila_dados.append(dado)
 
-        # time.sleep(Consts.sleep)
         self.dadosLock.release()
 
     def run(self):

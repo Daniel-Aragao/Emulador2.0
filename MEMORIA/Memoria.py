@@ -10,6 +10,7 @@ class Memoria(threading.Thread):
 
     def __init__(self, barramento, tamanho, log=ConsoleLog()):
         super(Memoria, self).__init__()
+        self.log = log
 
         if tamanho < Consts.MEMORIA_X_MIN:
             tamanho = Consts.MEMORIA_X_MIN
@@ -22,6 +23,7 @@ class Memoria(threading.Thread):
         self.code_slice = Consts.get_memoria_code_sliced(self.tamanho)
         self.memoria = [0 for i in range(self.tamanho)]
         self.sinais = Queue()
+        self.dado = None
         self.barramento = barramento
 
     def receber_sinal(self, sinal):
@@ -30,14 +32,13 @@ class Memoria(threading.Thread):
     def receber_endereco(self):
         pass
 
-    def receber_dado(self):
-        pass
+    def receber_dado(self, d):
+        self.dado = d
 
     def run(self):
         while Consts.running:
             if not self.sinais.empty():
                 self.processar_sinal(self.sinais.get(timeout=Consts.timeout))
-            pass
 
     def processar_sinal(self, sinal):
         origem = sinal[Consts.T_ORIGEM]
@@ -52,7 +53,7 @@ class Memoria(threading.Thread):
         if tipo == Consts.T_L_INSTRUCAO or tipo == Consts.T_RL_INSTRUCAO:
             if tipo == Consts.T_L_INSTRUCAO:
                 # pego na entrada e ponho na posicao do ci e fico esperando via loop
-                pass
+                self.get_instrucao_entrada(sinal[Consts.T_DADOS])
 
             proximoendereco = self.proximo_endereco(sinal[Consts.T_DADOS])
             endereco = Consts.get_vetor_conexao(Consts.RAM, Consts.CPU, proximoendereco, tipo)
@@ -98,3 +99,15 @@ class Memoria(threading.Thread):
                               "de memoria "+str(Memoria.anterior_endereco(self.code_slice)))
 
         return At.sub_array(self.memoria, endereco, Consts.CODE_SIZE)
+
+    def get_instrucao_entrada(self, pos):
+        conect = Consts.get_vetor_conexao(Consts.RAM, Consts.ENTRADA, None, Consts.T_L_INSTRUCAO)
+
+        self.barramento.enviar_sinal(conect)
+
+        while self.dado is None:
+            pass
+
+        At.append_array(self.dado, self.memoria, pos, Consts.CODE_SIZE)
+
+        self.dado = None

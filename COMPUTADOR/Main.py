@@ -2,7 +2,7 @@ from COMPUTADOR import Constantes as Consts
 from CPU.Cpu import Cpu
 from BARRAMENTO.Barramento import Barramento
 from MEMORIA.Memoria import Memoria
-
+from ENTRADA.Entrada import Entrada
 
 class Computador:
 
@@ -17,15 +17,15 @@ class Computador:
         Consts.running = True
 
         ram = Memoria(barramento, Consts.MEMORIA_X)
-        # entrada = Entrada(barramento)
+        entrada = Entrada(barramento)
         cpu = Cpu(barramento)
 
         Consts.Componentes[Consts.RAM] = ram
-        # Consts.Componentes[Consts.ENTRADA] = entrada
+        Consts.Componentes[Consts.ENTRADA] = entrada
         Consts.Componentes[Consts.CPU] = cpu
 
         barramento.start()
-        # entrada.start()
+        entrada.start()
         ram.start()
         cpu.start()
 
