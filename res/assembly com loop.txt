@@ -8,10 +8,10 @@ label 18
 inc A
 A < C ? jump 18:0
 mov 0x0002, A
-end code
+end
 
 0x0001 = 3
-A = 7
+A = 21
 B = 3
 C = 21
 0x0002 = 21
