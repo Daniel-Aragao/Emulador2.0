@@ -14,8 +14,7 @@ class BufferReader:
         return f.read().splitlines()
 
     def lines_to_code(self, lines):
-        for line in lines:
-            self.codes.append(Regex.traduzir(line))
+        self.codes = Regex.traduzir(lines)
 
     def get_line(self):
         return self.codes.pop(0)
