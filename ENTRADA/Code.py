@@ -3,22 +3,59 @@ from COMPUTADOR import Constantes as Consts
 
 class Code:
     """
-    "end": "end" 1
-    "label": r"(label)\s+([^0]\d*)", 2
-    "inc": r"(inc)\s+(\w+)\s*", 2
-    "dec": r"(dec)\s+(\w+)\s*", 2
-    "add": r"(add)\s+(\w+)\s*,\s*(\w+)\s*", 3
-    "mov": r"(mov)\s+(\w+)\s*,\s*(\w+)\s*", 3
-    "imul": r"(imul)\s+(\w+)\s*,\s*(\w+)\s*,\s*(\w+)\s*", 4
-    "condicao": r"(\w+)\s*(<>|<|>|==)\s*(\w+)\s*[?]\s*(?:jump\s+|)(0|\d+)\s*:\s*(?:jump\s+|)(0|\d+)", 5
+    "end": 1,
+    "inc": 2,
+    "dec": 3,
+    "label": 4,
+    "add": 5,
+    "mov": 6,
+    "imul": 7,
+    "condicao": 8
     """
-    def __init__(self, groups):
+    def __init__(self, instrucao, groups):
         self.groups = groups
-        self.byte_array = Code.get_byte_array(groups)
+        self.instrucao = instrucao
+        self.byte_array = self.get_byte_array()
+
+    def get_byte_array(self):
+        code = [-1 for i in range(Consts.CODE_SIZE)]
+
+        # instrucao
+        code[0] = self.instrucao.codigo
+        # primeiro parametro que todos possuem
+
+        for i in range(self.instrucao.numparametros):
+            if self.instrucao.nome == "condicao" and i == 1:
+                code[i + 1] = Consts.CONDICOES[self.groups[i]]
+            else:
+                code[i+1] = Code.solve_value(self.groups[i])
+
+        return code
 
     @staticmethod
-    def get_byte_array(groups):
-        code = [-1 for i in range(Consts.CODE_SIZE)]
-    reconhecer a instrucao lá fora e aqui só reconhecer os valores restantes
+    def solve_value(valor):
+        retorno = None
+        try:
+            # tenta converter para inteiro
+            retorno = int(valor)
+            if retorno < 0:
+                raise Exception("Impossivel ler valores negativos")
+            return retorno
+        except ValueError:
+            pass
 
-        return [groups]
+        try:
+            # tenta converter para registrador
+            retorno = -ord(valor)
+            if retorno >= 0:
+                raise Exception("Registrador invalido")
+            return retorno
+        except TypeError:
+            pass
+
+        # converte para posicao de memoria
+        if retorno is None:
+            retorno = -int(valor, 16)
+            if retorno >= 0:
+                raise Exception("Nao existe posicao de memoria negativa")
+        return retorno

@@ -29,7 +29,7 @@ class Computador:
         ram.start()
         cpu.start()
 
-        # Consts.running = False
+        Consts.running = False
 
 if __name__ == '__main__':
     Computador()

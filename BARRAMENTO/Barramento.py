@@ -45,7 +45,7 @@ class Barramento(threading.Thread):
             self.disparar_sinais()
             self.disparar_enderecos()
             self.disparar_dados()
-
+            # dados novos estao esperando 1 seg para serem lancados, corrigir!
             time.sleep(Consts.sleep)
 
     def disparar_sinais(self):

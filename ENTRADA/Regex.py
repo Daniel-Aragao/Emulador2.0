@@ -1,5 +1,6 @@
 import re
 from Code import Code
+from COMPUTADOR import Constantes as Consts
 
 
 class Regex:
@@ -30,16 +31,21 @@ class Regex:
             reresult = None
             codetype = None
             if instrucao in patterns:
-                reresult = re.match(patterns[instrucao], line)[1::]
-                codetype = instrucao
+                reresult = re.match(patterns[instrucao], line)
+                if reresult is None:
+                    raise SyntaxError(line)
+
+                reresult = reresult.groups()[1::]
+                codetype = Consts.INSTRUCOES[instrucao]
             else:
-                reresult = re.match(patterns["condicao"], line)[1::] aqui
-                codetype = "condicao"
+                reresult = re.match(patterns["condicao"], line)
+                if reresult is None:
+                    raise SyntaxError(line)
 
-            if reresult is None:
-                raise SyntaxError(line)
+                reresult = reresult.groups()
+                codetype = Consts.INSTRUCOES["condicao"]
 
-            codes.append(Code(reresult.groups()))
+            codes.append(Code(codetype, reresult))
 
             if instrucao == "end":
                 break

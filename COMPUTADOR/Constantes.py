@@ -23,7 +23,8 @@ def get_memoria_code_sliced(t):
     return int(t * MEMORIA_CODE_SLICE)
 
 # tamanho de uma instrucao
-CODE_SIZE = 5
+# maior eh a (condicao a > b ? jump 3 : jump 8)
+CODE_SIZE = 6
 
 sleep = 1
 timeout = 2*sleep
@@ -56,4 +57,32 @@ def get_vetor_conexao(origem, destino, dado, tipo):
     sinal[T_TIPO] = tipo
 
     return sinal
+
+
+class Instrucao:
+
+    def __init__(self, nome, codigo, numparametros):
+        self.nome = nome
+        self.codigo = codigo
+        self.numparametros = numparametros
+
+
+INSTRUCOES = {
+    "end": Instrucao("end", 1, 0),
+    "inc": Instrucao("inc", 2, 1),
+    "dec": Instrucao("dec", 3, 1),
+    "label": Instrucao("label", 4, 1),
+    "add": Instrucao("add", 5, 2),
+    "mov": Instrucao("mov", 6, 2),
+    "imul": Instrucao("imul", 7, 3),
+    "condicao": Instrucao("condicao", 8, 5)
+}
+
+CONDICOES = {
+    "<": 1,
+    ">": 2,
+    "<>": 3,
+    "==": 4
+}
+
 
