@@ -56,6 +56,6 @@ class Code:
         # converte para posicao de memoria
         if retorno is None:
             retorno = -int(valor, 16)
-            if retorno >= 0:
+            if retorno > 0:
                 raise Exception("Nao existe posicao de memoria negativa")
         return retorno

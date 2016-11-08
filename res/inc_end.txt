@@ -12,6 +12,7 @@ inc A
 add A, B
 mov C, A
 imul D, A, C
+mov 0x0003, D
 end
 
 0x0001 1

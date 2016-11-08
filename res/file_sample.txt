@@ -5,10 +5,20 @@ mov 0x0001, A
 inc 0x0001
 imul C, 0x0001, 4
 mov 0x0002, C
-mov 0x000, B
+mov 0x0001, B
 mov D, 0x01
 imul C, B, D
 inc C
 add A, C
 inc A
 mov 0x003, A
+end
+
+0x0001  3
+0x0002  24
+0x0003  16
+A       16
+B       3
+C       10
+D       3
+

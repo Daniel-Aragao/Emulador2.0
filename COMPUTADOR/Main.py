@@ -4,6 +4,7 @@ from BARRAMENTO.Barramento import Barramento
 from MEMORIA.Memoria import Memoria
 from ENTRADA.Entrada import Entrada
 
+
 class Computador:
 
     def __init__(self):

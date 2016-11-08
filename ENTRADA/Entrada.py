@@ -7,10 +7,10 @@ from ILOGS.ConsoleLog import ConsoleLog
 
 class Entrada(threading.Thread):
     # defaultPath = r"C:\\Users\danda_000\\Documents\\Estudos, Unifor\\Python\\workspace\\Arquitetura2.0\\res\\file_sample.txt"
-    # defaultPath = r"C:\\Users\danda_000\\Documents\\Estudos, Unifor\\Python\\workspace" \
-    #               r"\\Arquitetura2.0\\res\\assembly_com_loop.txt"
     defaultPath = r"C:\\Users\danda_000\\Documents\\Estudos, Unifor\\Python\\workspace" \
-                  r"\\Arquitetura2.0\\res\\inc_end.txt"
+                  r"\\Arquitetura2.0\\res\\assembly_com_loop.txt"
+    # defaultPath = r"C:\\Users\danda_000\\Documents\\Estudos, Unifor\\Python\\workspace" \
+    #               r"\\Arquitetura2.0\\res\\inc_end.txt"
 
     def __init__(self, barramento, path=defaultPath, log=ConsoleLog()):
         super(Entrada, self).__init__(name="Entrada")

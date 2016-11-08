@@ -15,7 +15,7 @@ larguraBanda = (clock * larguraBarramento) // 8
 # tamanho da memoria de 32* 2**0 a 32 * 2**19 ( 32 * 2**X)
 MEMORIA_X_MIN = 0
 MEMORIA_X_MAX = 19
-MEMORIA_X = 0
+MEMORIA_X = 2
 MEMORIA_CODE_SLICE = 1.0/2
 
 
@@ -44,7 +44,7 @@ T_EVALOR_POS = 4
 # Tipos de sinal
 # L - leitura, RL - releitura, E - escrita
 T_L_INSTRUCAO = 0
-T_RL_INSTRUCAO = 0
+T_RL_INSTRUCAO = 4
 T_L_VALOR = 1
 T_E_INSTRUCAO = 2
 T_E_VALOR = 3
@@ -86,4 +86,9 @@ CONDICOES = {
     "==": 4
 }
 
+
+def get_condicao_string(valor):
+    for cond in CONDICOES:
+        if CONDICOES[cond] == valor:
+            return cond
 

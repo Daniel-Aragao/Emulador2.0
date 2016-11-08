@@ -103,22 +103,18 @@ class Cpu(threading.Thread):
 
         processar dado
         no processamento caso seja fim de loop:
-            ultimo = retiro o ultimo loop
+            ultimo = pego o ultimo loop sem retirar
             testo a condicao do loop
             se a condicao eh verdadeira
                 ci recebe ultimo.linha
                 tipo de leitura eh releitura( nao pega do disco na releitura)
             se nao
                 tipo de leitura eh leitura
-            se o dado eh uma label
-
-        armazenar label no vetor de loops juntamente do endereco desse label
         """
         instrucao = self.dado[Consts.T_DADOS]
         if len(self.loops):
-            if instrucao[0] != Consts.INSTRUCOES["condicao"].codigo:
-                if self.registradores["CI"] == self.loops[0].linha:
-                    raise MemoryError("memoria insuficiente")
+            if self.registradores["CI"] == self.loops[0].posmem:
+                raise MemoryError("memoria insuficiente")
 
         self.processar(instrucao)
         # fim do metodo
@@ -149,7 +145,7 @@ class Cpu(threading.Thread):
                 self.enviar_valor_memoria(-val, valor - 1)
             else:
                 raise ValueError(val + " precisa ser posicao de memoria ou um registrador para a operacao 'dec'")
-            
+
         elif instrucao[0] == Consts.INSTRUCOES["add"].codigo:
             val = self.get_valor(instrucao[1]) + self.get_valor(instrucao[2])
             if self.is_registrador(instrucao[1]):
@@ -163,16 +159,62 @@ class Cpu(threading.Thread):
                 self.registradores[chr(int(-instrucao[1]))] = val
             elif self.is_pos_memoria(instrucao[1]):
                 self.enviar_valor_memoria(-instrucao[1], val)
+
         elif instrucao[0] == Consts.INSTRUCOES["imul"].codigo:
             val = self.get_valor(instrucao[3]) * self.get_valor(instrucao[2])
             if self.is_registrador(instrucao[1]):
                 self.registradores[chr(int(-instrucao[1]))] = val
             elif self.is_pos_memoria(instrucao[1]):
                 self.enviar_valor_memoria(-instrucao[1], val)
+
+        elif instrucao[0] == Consts.INSTRUCOES["label"].codigo:
+            if not self.existe_label(instrucao[1]):
+                self.loops.append(Loop(self.registradores["CI"], instrucao[1]))
+            else:
+                raise Exception("a label " + instrucao[1] + " ja existe")
+
+        elif instrucao[0] == Consts.INSTRUCOES["condicao"].codigo:
+            val1 = self.get_valor(instrucao[1])
+            val2 = self.get_valor(instrucao[3])
+
+            condicao = eval(str(val1) + Consts.get_condicao_string(instrucao[2]) + str(val2))
+
+            if condicao:
+                self.go_to_loop(instrucao[4])
+            else:
+                self.go_to_loop(instrucao[5])
         else:
             raise Exception("instrucao invalida codigo:"+str(instrucao[0]))
 
         self.log.write_line(str(self.registradores))
+
+    def go_to_loop(self, label):
+        if label:
+            loop = self.get_loop(label)
+            if loop is None:
+                raise Exception("label nao encontrada")
+            else:
+                self.registradores["CI"] = loop.posmem
+                self.tipoSinal = Consts.T_RL_INSTRUCAO
+                # se sair do loop interno ele saira do externo tbm se tiver soh esse controle, para consertar
+                # sugiro colocar mais um atributo ao objeto loop que controlaria se esta ou n nesse label e ao
+                # passar pela possibilidade de chamar a label remover de la o atributo sendo que se entrar
+                # novamente colocaria o atributo de novo
+                # outra sugestao eh guardar a ci mais antiga ja visitada, resposta provavelmente insoluvel
+        else:
+            self.tipoSinal = Consts.T_L_INSTRUCAO
+
+    def existe_label(self, label):
+        for i in self.loops:
+            if i.codigo == label:
+                return True
+        return False
+
+    def get_loop(self, label):
+        for i in self.loops:
+            if i.codigo == label:
+                return i
+        return None
 
     @staticmethod
     def is_registrador(valor):
