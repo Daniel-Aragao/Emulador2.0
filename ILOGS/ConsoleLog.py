@@ -9,4 +9,4 @@ class ConsoleLog:
 
     @staticmethod
     def write_line(msg):
-        print str(msg)
+        print str(msg+"\n")

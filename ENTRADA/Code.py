@@ -46,7 +46,7 @@ class Code:
 
         try:
             # tenta converter para registrador
-            retorno = -ord(valor)
+            retorno = -float(ord(valor))
             if retorno >= 0:
                 raise Exception("Registrador invalido")
             return retorno

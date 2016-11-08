@@ -38,7 +38,8 @@ T_DESTINO = 1
 T_DADOS = 2
 T_TIPO = 3
 # Sinal E de valor
-T_E_VALOR_T = 4
+T_EVLENGTH = 5
+T_EVALOR_POS = 4
 
 # Tipos de sinal
 # L - leitura, RL - releitura, E - escrita
@@ -49,8 +50,8 @@ T_E_INSTRUCAO = 2
 T_E_VALOR = 3
 
 
-def get_vetor_conexao(origem, destino, dado, tipo):
-    sinal = [i for i in range(T_LENGTH)]
+def get_vetor_conexao(origem, destino, dado, tipo, len=T_LENGTH):
+    sinal = [i for i in range(len)]
     sinal[T_ORIGEM] = origem
     sinal[T_DESTINO] = destino
     sinal[T_DADOS] = dado

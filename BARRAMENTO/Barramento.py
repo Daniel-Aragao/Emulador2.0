@@ -1,12 +1,15 @@
 from COMPUTADOR import Constantes as Consts
 import threading
 import time
+from ILOGS.ConsoleLog import ConsoleLog
 
 
 class Barramento(threading.Thread):
 
-    def __init__(self):
-        super(Barramento, self).__init__()
+    def __init__(self, log=ConsoleLog()):
+        super(Barramento, self).__init__(name="Barramento")
+        self.log = log
+
         self.sinalLock = threading.Lock()
         self.fila_sinal = []
 
@@ -41,18 +44,24 @@ class Barramento(threading.Thread):
         self.dadosLock.release()
 
     def run(self):
+        self.log.write_line("Barramento start")
         while Consts.running:
+            # import sys
+            # sys.getsizeof([1,2,3])
+            # criar classe "time control"
             self.disparar_sinais()
             self.disparar_enderecos()
             self.disparar_dados()
             # dados novos estao esperando 1 seg para serem lancados, corrigir!
-            time.sleep(Consts.sleep)
+            # time.sleep(Consts.sleep)
+        self.log.write_line("Barramento end")
 
     def disparar_sinais(self):
         self.sinalLock.acquire()
         enviado = 0
-
-        for sinal in self.fila_sinal:
+        length = len(self.fila_sinal)
+        for i in range(length):
+            sinal = self.fila_sinal.pop(0)
             tamanhosinal = len(sinal)
             if enviado + tamanhosinal > Consts.larguraBanda:
                 break
@@ -67,8 +76,9 @@ class Barramento(threading.Thread):
         self.enderecoLock.acquire()
 
         enviado = 0
-
-        for endereco in self.fila_endereco:
+        length = len(self.fila_endereco)
+        for i in range(length):
+            endereco = self.fila_endereco.pop(0)
             tamanhoendereco = len(endereco)
             if enviado + tamanhoendereco > Consts.larguraBanda:
                 break
@@ -83,8 +93,9 @@ class Barramento(threading.Thread):
         self.dadosLock.acquire()
 
         enviado = 0
-
-        for dado in self.fila_dados:
+        length = len(self.fila_dados)
+        for i in range(length):
+            dado = self.fila_dados.pop(0)
             tamanhodado = len(dado)
             if enviado + tamanhodado > Consts.larguraBanda:
                 break
