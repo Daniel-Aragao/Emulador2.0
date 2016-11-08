@@ -140,6 +140,38 @@ class Cpu(threading.Thread):
             else:
                 raise ValueError(val + " precisa ser posicao de memoria ou um registrador para a operacao 'inc'")
 
+        elif instrucao[0] == Consts.INSTRUCOES["dec"].codigo:
+            val = instrucao[1]
+            if self.is_registrador(val):
+                self.registradores[chr(int(-val))] -= 1
+            elif self.is_pos_memoria(val):
+                valor = self.get_valor(val)
+                self.enviar_valor_memoria(-val, valor - 1)
+            else:
+                raise ValueError(val + " precisa ser posicao de memoria ou um registrador para a operacao 'dec'")
+            
+        elif instrucao[0] == Consts.INSTRUCOES["add"].codigo:
+            val = self.get_valor(instrucao[1]) + self.get_valor(instrucao[2])
+            if self.is_registrador(instrucao[1]):
+                self.registradores[chr(int(-instrucao[1]))] = val
+            elif self.is_pos_memoria(instrucao[1]):
+                self.enviar_valor_memoria(-instrucao[1], val)
+
+        elif instrucao[0] == Consts.INSTRUCOES["mov"].codigo:
+            val = self.get_valor(instrucao[2])
+            if self.is_registrador(instrucao[1]):
+                self.registradores[chr(int(-instrucao[1]))] = val
+            elif self.is_pos_memoria(instrucao[1]):
+                self.enviar_valor_memoria(-instrucao[1], val)
+        elif instrucao[0] == Consts.INSTRUCOES["imul"].codigo:
+            val = self.get_valor(instrucao[3]) * self.get_valor(instrucao[2])
+            if self.is_registrador(instrucao[1]):
+                self.registradores[chr(int(-instrucao[1]))] = val
+            elif self.is_pos_memoria(instrucao[1]):
+                self.enviar_valor_memoria(-instrucao[1], val)
+        else:
+            raise Exception("instrucao invalida codigo:"+str(instrucao[0]))
+
         self.log.write_line(str(self.registradores))
 
     @staticmethod
@@ -177,6 +209,6 @@ class Cpu(threading.Thread):
 
 class Loop:
 
-    def __init__(self, linha, codigo):
-        self.linha = linha
+    def __init__(self, posmem, codigo):
+        self.posmem = posmem
         self.codigo = codigo

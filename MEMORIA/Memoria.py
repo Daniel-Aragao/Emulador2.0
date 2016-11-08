@@ -20,8 +20,8 @@ class Memoria(threading.Thread):
             log.write_line('tamanho de memoria muito grande, o tamanho maximo foi escolhido')
 
         self.tamanho = 32 * 2**tamanho
-        slice = Consts.get_memoria_code_sliced(self.tamanho)
-        self.code_slice = slice - slice % Consts.CODE_SIZE
+        codeslice = Consts.get_memoria_code_sliced(self.tamanho)
+        self.code_slice = codeslice - codeslice % Consts.CODE_SIZE
         self.memoria = [0 for i in range(self.tamanho)]
         self.sinais = Queue()
         self.dado = None
