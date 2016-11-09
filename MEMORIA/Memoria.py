@@ -2,13 +2,13 @@ from COMPUTADOR import Constantes as Consts
 import threading
 # import time
 from Queue import Queue
-from ILOGS.ConsoleLog import ConsoleLog
+from ILOGS.Logs import LogNone
 from COMPUTADOR.ArrayTools import ArrayTools as At
 
 
 class Memoria(threading.Thread):
 
-    def __init__(self, barramento, tamanho, log=ConsoleLog()):
+    def __init__(self, barramento, tamanho, log=LogNone()):
         super(Memoria, self).__init__(name="Memoria")
         self.log = log
 
@@ -38,11 +38,12 @@ class Memoria(threading.Thread):
         self.dado = d
 
     def run(self):
-        self.log.write_line("Memoria start")
+        self.log.write_line("Memoria= >> start")
         while Consts.running:
             if not self.sinais.empty():
+                self.log.write_line('memoria =>> receber sinal')
                 self.processar_sinal(self.sinais.get(timeout=Consts.timeout))
-        self.log.write_line("Memoria end")
+        self.log.write_line("Memoria =>> end")
 
     def processar_sinal(self, sinal):
         origem = sinal[Consts.T_ORIGEM]
@@ -129,8 +130,10 @@ class Memoria(threading.Thread):
         endereco = Consts.get_vetor_conexao(Consts.RAM, Consts.ENTRADA, pos, Consts.T_E_INSTRUCAO)
 
         self.barramento.enviar_endereco(endereco)
+        self.log.write_line('memoria => sinal enviado')
 
         while self.dado is None:
+            self.log.write_line("memoria =>> esperando dado")
             pass
 
         self.escrever_instrucao(pos, self.dado[Consts.T_DADOS])

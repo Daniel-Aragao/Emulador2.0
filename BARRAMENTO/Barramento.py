@@ -1,23 +1,28 @@
 from COMPUTADOR import Constantes as Consts
 import threading
 import time
-from ILOGS.ConsoleLog import ConsoleLog
+import sys
+from ILOGS.Logs import LogNone
 
 
 class Barramento(threading.Thread):
 
-    def __init__(self, log=ConsoleLog()):
+    def __init__(self, log=LogNone(), logi=LogNone()):
         super(Barramento, self).__init__(name="Barramento")
         self.log = log
+        self.logi = logi
 
         self.sinalLock = threading.Lock()
         self.fila_sinal = []
+        self.sinal_bytes = 0
 
         self.enderecoLock = threading.Lock()
         self.fila_endereco = []
+        self.enderecos_bytes = 0
 
         self.dadosLock = threading.Lock()
         self.fila_dados = []
+        self.dados_bytes = 0
 
     # Estrutura de sinais
     def enviar_sinal(self, sinal):
@@ -44,64 +49,102 @@ class Barramento(threading.Thread):
         self.dadosLock.release()
 
     def run(self):
-        self.log.write_line("Barramento start")
+        self.log.write_line("Barramento => start")
+
+        lasttime = time.time()
+        totaltime = 0
         while Consts.running:
-            # import sys
-            # sys.getsizeof([1,2,3])
-            # criar classe "time control"
             self.disparar_sinais()
+
             self.disparar_enderecos()
+
             self.disparar_dados()
-            # dados novos estao esperando 1 seg para serem lancados, corrigir!
-            # time.sleep(Consts.sleep)
-        self.log.write_line("Barramento end")
+
+            totaltime += time.time() - lasttime
+            if totaltime >= 1:
+                self.logi.write_line("---------dados-do-segundo-------")
+
+                self.logi.write_line("registradores: " + str(Consts.Componentes[Consts.CPU].registradores))
+                self.logi.write_line("memoria: " + str(Consts.Componentes[Consts.RAM].memoria))
+
+                self.logi.write_line("fila_sinal: " + str(self.sinal_bytes))
+
+                self.logi.write_line("fila_enderecos: " + str(self.enderecos_bytes))
+
+                self.logi.write_line("fila_dados: " + str(self.dados_bytes))
+
+                tempo = time.localtime()
+                self.logi.write_line("tempo: " + str(tempo.tm_hour) + ":" + str(tempo.tm_min)+":"+str(tempo.tm_sec))
+
+                self.logi.write_line("--------------------------------")
+
+                totaltime = 0
+                self.sinal_bytes = 0
+                self.enderecos_bytes = 0
+                self.dados_bytes = 0
+
+            lasttime = time.time()
+
+        self.log.write_line("Barramento => end")
 
     def disparar_sinais(self):
         self.sinalLock.acquire()
-        enviado = 0
-        length = len(self.fila_sinal)
-        for i in range(length):
-            sinal = self.fila_sinal.pop(0)
-            tamanhosinal = len(sinal)
-            if enviado + tamanhosinal > Consts.larguraBanda:
-                break
-            enviado += tamanhosinal
 
-            destino = sinal[Consts.T_DESTINO]
-            Consts.Componentes[destino].receber_sinal(sinal)
+        length = len(self.fila_sinal)
+
+        if length:
+            sinal = self.fila_sinal[0]
+
+            tamanhofinal = (len(sinal) * sys.getsizeof(0)) + sys.getsizeof(sinal) + self.sinal_bytes
+
+            if tamanhofinal <= Consts.larguraBanda:
+                self.log.write_line('barramento => disparar sinais')
+
+                destino = sinal[Consts.T_DESTINO]
+                Consts.Componentes[destino].receber_sinal(sinal)
+
+                self.sinal_bytes = tamanhofinal
+                self.fila_sinal.pop(0)
 
         self.sinalLock.release()
 
     def disparar_enderecos(self):
         self.enderecoLock.acquire()
 
-        enviado = 0
         length = len(self.fila_endereco)
-        for i in range(length):
-            endereco = self.fila_endereco.pop(0)
-            tamanhoendereco = len(endereco)
-            if enviado + tamanhoendereco > Consts.larguraBanda:
-                break
-            enviado += tamanhoendereco
 
-            destino = endereco[Consts.T_DESTINO]
-            Consts.Componentes[destino].receber_endereco(endereco)
+        if length:
+            endereco = self.fila_endereco[0]
+
+            tamanhoendereco = (len(endereco) * sys.getsizeof(0)) + sys.getsizeof(endereco) + self.enderecos_bytes
+
+            if tamanhoendereco <= Consts.larguraBanda:
+                self.log.write_line('barramento => disparar enderecos')
+
+                destino = endereco[Consts.T_DESTINO]
+                Consts.Componentes[destino].receber_endereco(endereco)
+
+                self.enderecos_bytes = tamanhoendereco
+                self.fila_endereco.pop(0)
 
         self.enderecoLock.release()
 
     def disparar_dados(self):
         self.dadosLock.acquire()
 
-        enviado = 0
         length = len(self.fila_dados)
-        for i in range(length):
-            dado = self.fila_dados.pop(0)
-            tamanhodado = len(dado)
-            if enviado + tamanhodado > Consts.larguraBanda:
-                break
-            enviado += tamanhodado
 
-            destino = dado[Consts.T_DESTINO]
-            Consts.Componentes[destino].receber_dado(dado)
+        if length:
+            dado = self.fila_dados[0]
+
+            tamanhodado = (len(dado) * sys.getsizeof(0)) + sys.getsizeof(dado) + self.dados_bytes
+            if tamanhodado <= Consts.larguraBanda:
+                self.log.write_line('barramento => disparar dados')
+
+                destino = dado[Consts.T_DESTINO]
+                Consts.Componentes[destino].receber_dado(dado)
+
+                self.dados_bytes = tamanhodado
+                self.fila_dados.pop(0)
 
         self.dadosLock.release()

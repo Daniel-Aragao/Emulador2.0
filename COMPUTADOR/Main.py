@@ -3,6 +3,7 @@ from CPU.Cpu import Cpu
 from BARRAMENTO.Barramento import Barramento
 from MEMORIA.Memoria import Memoria
 from ENTRADA.Entrada import Entrada
+from ILOGS.Logs import *
 
 
 class Computador:
@@ -14,7 +15,8 @@ class Computador:
 
     @staticmethod
     def criar_componentes():
-        barramento = Barramento()
+        log = ConsoleLog()
+        barramento = Barramento(logi=LogSegundo())
         Consts.running = True
 
         ram = Memoria(barramento, Consts.MEMORIA_X)
@@ -29,12 +31,6 @@ class Computador:
         entrada.start()
         ram.start()
         cpu.start()
-
-        # Consts.running = False
-        while Consts.running:
-            pass
-
-        print ' FIM '
 
 if __name__ == '__main__':
     Computador()

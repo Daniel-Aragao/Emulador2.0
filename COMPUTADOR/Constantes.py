@@ -8,7 +8,7 @@ running = False
 # clock = [10^2 hz a 10^9 hz]
 clock = 100
 # lbar = [2^3, 2^7] em bits
-larguraBarramento = 8
+larguraBarramento = 16
 # lbanda = (clock * lbar)// 8 bits  => 8 bits = 1 byte
 larguraBanda = (clock * larguraBarramento) // 8
 

@@ -2,7 +2,7 @@ import threading
 from COMPUTADOR import Constantes as Consts
 from Queue import Queue
 from ENTRADA.Buffer import BufferReader
-from ILOGS.ConsoleLog import ConsoleLog
+from ILOGS.Logs import LogNone
 
 
 class Entrada(threading.Thread):
@@ -12,7 +12,7 @@ class Entrada(threading.Thread):
     # defaultPath = r"C:\\Users\danda_000\\Documents\\Estudos, Unifor\\Python\\workspace" \
     #               r"\\Arquitetura2.0\\res\\inc_end.txt"
 
-    def __init__(self, barramento, path=defaultPath, log=ConsoleLog()):
+    def __init__(self, barramento, path=defaultPath, log=LogNone()):
         super(Entrada, self).__init__(name="Entrada")
         self.log = log
 
@@ -25,7 +25,9 @@ class Entrada(threading.Thread):
         self.log.write_line("Entrada start")
         while Consts.running:
             if not self.sinais.empty():
+                self.log.write_line('entrada => receber sinal')
                 self.processar_sinal(self.sinais.get(timeout=Consts.timeout))
+
         self.log.write_line("Entrada end")
 
     def receber_sinal(self, sinal):
@@ -42,9 +44,11 @@ class Entrada(threading.Thread):
             # enviar pra memoria
             sinal = Consts.get_vetor_conexao(Consts.ENTRADA, Consts.RAM, sinal[Consts.T_DADOS], Consts.T_E_INSTRUCAO)
             self.barramento.enviar_sinal(sinal)
+            self.log.write_line('entrada => sinal enviado')
 
             # esperar confirmacao da memoria
             while not self.endereco:
+                # self.log.write_line("entrada => esperando endereco")
                 pass
             self.endereco = None
 

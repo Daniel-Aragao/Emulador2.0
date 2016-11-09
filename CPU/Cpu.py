@@ -1,6 +1,6 @@
 from COMPUTADOR import Constantes as Consts
 import threading
-from ILOGS.ConsoleLog import ConsoleLog
+from ILOGS.Logs import LogNone
 
 
 class Cpu(threading.Thread):
@@ -8,7 +8,7 @@ class Cpu(threading.Thread):
     PASSO_ENDERECO_DADO = 1
     PASSO_PROCESSAMENTO = 2
 
-    def __init__(self, barramento, log=ConsoleLog()):
+    def __init__(self, barramento, log=LogNone()):
         super(Cpu, self).__init__(name="Cpu")
         self.log = log
 
@@ -55,18 +55,21 @@ class Cpu(threading.Thread):
     """
 
     def run(self):
-        self.log.write_line("Cpu start")
+        self.log.write_line("Cpu => start")
         while Consts.running:
             if self.passo == Cpu.PASSO_SINAL:
                 self.enviar_sinal()
+                # self.log.write_line('cpu => enviar_sinal')
 
             elif self.passo == Cpu.PASSO_ENDERECO_DADO:
                 self.esperar_informacao()
+                # self.log.write_line('cpu => receber endereco e dado')
 
             elif self.passo == Cpu.PASSO_PROCESSAMENTO:
                 self.passo_processamento()
+                # self.log.write_line('cpu => processar instrucao')
 
-        self.log.write_line("Cpu end")
+        self.log.write_line("Cpu => end")
 
     def enviar_sinal(self):
         if self.registradores["CI"] != -1:
@@ -80,6 +83,7 @@ class Cpu(threading.Thread):
                 self.barramento.enviar_sinal(sinalentrada)
 
             self.passo = Cpu.PASSO_ENDERECO_DADO
+            self.log.write_line('cpu => sinal enviado')
 
     def receber_endereco(self, endereco):
         self.endereco = endereco
@@ -89,6 +93,7 @@ class Cpu(threading.Thread):
 
     def esperar_informacao(self):
         if (self.dado is not None) and (self.endereco is not None):
+            self.log.write_line('cpu => endereco e dado recebidos')
             self.registradores["CI"] = self.endereco[Consts.T_DADOS]
             self.passo = Cpu.PASSO_PROCESSAMENTO
 
@@ -121,6 +126,7 @@ class Cpu(threading.Thread):
         self.dado = None
         self.endereco = None
         self.passo = Cpu.PASSO_SINAL
+        self.log.write_line('cpu => processado')
 
     def processar(self, instrucao):
         if instrucao[0] == Consts.INSTRUCOES["end"].codigo:
@@ -239,6 +245,7 @@ class Cpu(threading.Thread):
         self.barramento.enviar_sinal(sinal)
 
         while self.dado is None:
+            # self.log.write_line("cpu => esperando dado")
             pass
 
         return self.dado[Consts.T_DADOS]
