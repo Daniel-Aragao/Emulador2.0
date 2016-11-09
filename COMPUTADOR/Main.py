@@ -4,6 +4,7 @@ from BARRAMENTO.Barramento import Barramento
 from MEMORIA.Memoria import Memoria
 from ENTRADA.Entrada import Entrada
 from ILOGS.Logs import *
+from INTERFACES.Interface import Tela
 
 
 class Computador:
@@ -15,7 +16,7 @@ class Computador:
 
     @staticmethod
     def criar_componentes():
-        log = ConsoleLog()
+        # log = ConsoleLog()
         barramento = Barramento(logi=LogSegundo())
         Consts.running = True
 
@@ -32,5 +33,11 @@ class Computador:
         ram.start()
         cpu.start()
 
-if __name__ == '__main__':
-    Computador()
+if __name__ != '__main__':
+    print "must be main"
+
+# frame = Tela()
+# frame.start()
+
+Computador()
+

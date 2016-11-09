@@ -92,3 +92,8 @@ def get_condicao_string(valor):
         if CONDICOES[cond] == valor:
             return cond
 
+# defaultPath = r"C:\\Users\danda_000\\Documents\\Estudos, Unifor\\Python\\workspace\\Arquitetura2.0\\res\\file_sample.txt"
+defaultPath = r"C:\\Users\danda_000\\Documents\\Estudos, Unifor\\Python\\workspace" \
+              r"\\Arquitetura2.0\\res\\assembly_com_loop.txt"
+# defaultPath = r"C:\\Users\danda_000\\Documents\\Estudos, Unifor\\Python\\workspace" \
+#               r"\\Arquitetura2.0\\res\\inc_end.txt"

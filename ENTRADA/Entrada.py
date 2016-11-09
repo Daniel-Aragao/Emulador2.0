@@ -6,13 +6,8 @@ from ILOGS.Logs import LogNone
 
 
 class Entrada(threading.Thread):
-    # defaultPath = r"C:\\Users\danda_000\\Documents\\Estudos, Unifor\\Python\\workspace\\Arquitetura2.0\\res\\file_sample.txt"
-    defaultPath = r"C:\\Users\danda_000\\Documents\\Estudos, Unifor\\Python\\workspace" \
-                  r"\\Arquitetura2.0\\res\\assembly_com_loop.txt"
-    # defaultPath = r"C:\\Users\danda_000\\Documents\\Estudos, Unifor\\Python\\workspace" \
-    #               r"\\Arquitetura2.0\\res\\inc_end.txt"
 
-    def __init__(self, barramento, path=defaultPath, log=LogNone()):
+    def __init__(self, barramento, path=Consts.defaultPath, log=LogNone()):
         super(Entrada, self).__init__(name="Entrada")
         self.log = log
 
@@ -56,7 +51,3 @@ class Entrada(threading.Thread):
             self.barramento.enviar_dado(dado)
         else:
             raise Exception("sinal invalido")
-
-
-        #eriko: a cpu vai enviar pra entrada o pedido de codigo e a entrada enviara para memoria q enviara pra cpu
-        #o endereco com os dados
