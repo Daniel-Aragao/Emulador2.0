@@ -7,7 +7,12 @@ from COMPUTADOR.ArrayTools import ArrayTools as At
 
 
 class Memoria(threading.Thread):
-
+    # tamanho da memoria vai ate 32gb
+    # enxer a memoria com dados repetidos
+    # implementar cache usando lru, lfu e cooldown
+    # fazer um relatorio dizendo qual o melhor em termos de hits e misses do cache
+    # configurar o algoritmo walk throught da cache x:1 ( x mudanca no cache atualiza a ram, se chegar nao chegar em x
+    #   quando o timeout acabar, entao iremos atualizar antes de remover) pro dia 28
     def __init__(self, barramento, tamanho, log=LogNone()):
         super(Memoria, self).__init__(name="Memoria")
         self.log = log

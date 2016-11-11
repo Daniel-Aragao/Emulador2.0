@@ -20,40 +20,6 @@ class Cpu(threading.Thread):
         self.dado = None
         self.loops = []
 
-    """
-    PASSO_SINAL
-    enviar sinal com origem, destino, valor de ci e o tipo de leitura
-    apos enviar o passo vira de endereco_dado
-
-    PASSO_ENDERECO_DADO
-    ESPERAR endereco(nova ci) e dado(a ser processado)
-    quando os dois forem recebidos o passo vira de processamento
-
-    PASSO_PROCESSAMENTO
-    se o dado for o fim do codigo running vira false e dar um continue
-    se a lista de loops NAO for vazia
-        se a instrucao nao eh fim de loop
-            se ci igual ao inicio do primeiro loop
-                raise out of memory
-        se nao
-            se eh fim do ultimo loop
-                ultimo = retiro o ultimo loop
-                testo a condicao do loop
-                se a condicao eh verdadeira
-                    ci recebe ultimo.linha
-                    tipo de leitura eh releitura( nao pega do disco na releitura)
-                se nao
-                    tipo de leitura eh leitura
-            se nao
-                raise exception
-
-    processar dado
-    se o dado eh uma label
-        armazenar label no vetor de loops juntamente do endereco desse label
-
-    enviar sinal novamente
-    """
-
     def run(self):
         self.log.write_line("Cpu => start")
         while Consts.running:
@@ -98,24 +64,6 @@ class Cpu(threading.Thread):
             self.passo = Cpu.PASSO_PROCESSAMENTO
 
     def passo_processamento(self):
-        """
-        se o dado for o fim do codigo running vira false e dar um continue
-        se a lista de loops NAO for vazia
-            se a instrucao nao eh fim de loop
-                se ci igual ao inicio do primeiro loop
-                    raise out of memory
-
-
-        processar dado
-        no processamento caso seja fim de loop:
-            ultimo = pego o ultimo loop sem retirar
-            testo a condicao do loop
-            se a condicao eh verdadeira
-                ci recebe ultimo.linha
-                tipo de leitura eh releitura( nao pega do disco na releitura)
-            se nao
-                tipo de leitura eh leitura
-        """
         instrucao = self.dado[Consts.T_DADOS]
         if len(self.loops):
             if self.registradores["CI"] == self.loops[0].posmem:
@@ -240,14 +188,15 @@ class Cpu(threading.Thread):
             return self.registradores[chr(int(-dado))]
 
         # uma posicao de memoria
+        return self.get_valor_da_memoria(dado)
+
+    def get_valor_da_memoria(self, dado):
         self.dado = None
         sinal = Consts.get_vetor_conexao(Consts.CPU, Consts.RAM, -dado, Consts.T_L_VALOR)
         self.barramento.enviar_sinal(sinal)
-
         while self.dado is None:
             # self.log.write_line("cpu => esperando dado")
             pass
-
         return self.dado[Consts.T_DADOS]
 
     def enviar_valor_memoria(self, pos, valor):

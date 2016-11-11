@@ -1,0 +1,11 @@
+mov B, 2000
+mov 0x0001, B
+mov A, 100
+label 14
+inc A
+mov 0x0002, A
+0x0002 < 0x0001 ? jump 14:0
+end
+
+
+

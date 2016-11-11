@@ -18,6 +18,7 @@ class Code:
         self.byte_array = self.get_byte_array()
 
     def get_byte_array(self):
+        # codigo talvez va precisar de flags de memoria, registrador ou valor
         code = [-1 for i in range(Consts.CODE_SIZE)]
 
         # instrucao
@@ -34,6 +35,7 @@ class Code:
 
     @staticmethod
     def solve_value(valor):
+        hasArroba = valor[0] == '@'
         retorno = None
         try:
             # tenta converter para inteiro
