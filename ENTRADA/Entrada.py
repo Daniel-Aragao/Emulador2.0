@@ -43,11 +43,12 @@ class Entrada(threading.Thread):
 
             # esperar confirmacao da memoria
             while not self.endereco:
-                # self.log.write_line("entrada => esperando endereco")
+                self.log.write_line("entrada => esperando endereco")
                 pass
             self.endereco = None
 
             dado = Consts.get_vetor_conexao(Consts.ENTRADA, Consts.RAM, code, None)
             self.barramento.enviar_dado(dado)
         else:
+            Consts.running = False
             raise Exception("sinal invalido")

@@ -17,8 +17,8 @@ class Computador:
     @staticmethod
     def criar_componentes():
         # log = ConsoleLog()
-        barramento = Barramento(logi=LogSegundo())
         Consts.running = True
+        barramento = Barramento(logi=LogSegundo())
 
         ram = Memoria(barramento, Consts.MEMORIA_X)
         entrada = Entrada(barramento)

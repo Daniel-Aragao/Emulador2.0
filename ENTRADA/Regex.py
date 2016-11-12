@@ -17,7 +17,7 @@ class Regex:
 
         patterns = {
             "add": r"(add)\s+(\w+)\s*,\s*(\w+)\s*",
-            "mov": r"(mov)\s+(\w+)\s*,\s*(\w+)\s*",
+            "mov": r"(mov)\s+(.+)\s*,\s*(\w+)\s*",
             "imul": r"(imul)\s+(\w+)\s*,\s*(\w+)\s*,\s*(\w+)\s*",
             "inc": r"(inc)\s+(\w+)\s*",
             "dec": r"(dec)\s+(\w+)\s*",
@@ -33,6 +33,7 @@ class Regex:
             if instrucao in patterns:
                 reresult = re.match(patterns[instrucao], line)
                 if reresult is None:
+                    Consts.running = False
                     raise SyntaxError(line)
 
                 reresult = reresult.groups()[1::]
@@ -40,6 +41,7 @@ class Regex:
             else:
                 reresult = re.match(patterns["condicao"], line)
                 if reresult is None:
+                    Consts.running = False
                     raise SyntaxError(line)
 
                 reresult = reresult.groups()

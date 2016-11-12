@@ -16,17 +16,21 @@ class Memoria(threading.Thread):
     def __init__(self, barramento, tamanho, log=LogNone()):
         super(Memoria, self).__init__(name="Memoria")
         self.log = log
+        self.tamanho_informado = tamanho
+        if tamanho > 35:
+            MemoryError("limite de memoria excedido (32GB ou 32*2**30)")
 
         if tamanho < Consts.MEMORIA_X_MIN:
             tamanho = Consts.MEMORIA_X_MIN
             log.write_line('tamanho de memoria muito pequeno, o tamanho minimo foi escolhido')
         elif tamanho > Consts.MEMORIA_X_MAX:
             tamanho = Consts.MEMORIA_X_MAX
-            log.write_line('tamanho de memoria muito grande, o tamanho maximo foi escolhido')
+            # log.write_line('tamanho de memoria muito grande, o tamanho maximo foi escolhido')
 
         self.tamanho = 32 * 2**tamanho
         codeslice = Consts.get_memoria_code_sliced(self.tamanho)
         self.code_slice = codeslice - codeslice % Consts.CODE_SIZE
+        self.tamanho_total_valor = 32 * 2**self.tamanho_informado - self.code_slice
         self.memoria = [0 for i in range(self.tamanho)]
         self.sinais = Queue()
         self.dado = None
@@ -77,7 +81,14 @@ class Memoria(threading.Thread):
             if self.tamanho - 1 < endereco:
                 raise MemoryError("Posicao de memoria inexistente")
 
-            dado = Consts.get_vetor_conexao(Consts.RAM, Consts.CPU, self.memoria[endereco], tipo)
+            if self.tamanho - 1 < endereco:
+                if (self.tamanho_total_valor + self.code_slice) < endereco:
+                    raise MemoryError("Posicao de memoria " + str(endereco - self.code_slice) + " inexistente")
+
+                dado = Consts.get_vetor_conexao(Consts.RAM, Consts.CPU, 0, tipo)
+
+            else:
+                dado = Consts.get_vetor_conexao(Consts.RAM, Consts.CPU, self.memoria[endereco], tipo)
 
             self.barramento.enviar_dado(dado)
 
@@ -87,9 +98,11 @@ class Memoria(threading.Thread):
             endereco += self.code_slice
 
             if self.tamanho - 1 < endereco:
-                raise MemoryError("Posicao de memoria inexistente")
-
-            self.memoria[endereco] = sinal[Consts.T_EVALOR_POS]
+                if (self.tamanho_total_valor + self.code_slice) < endereco:
+                    Consts.running = False
+                    raise MemoryError("Posicao de memoria " + str(endereco - self.code_slice) + " inexistente")
+            else:
+                self.memoria[endereco] = sinal[Consts.T_EVALOR_POS]
 
         else:
             raise Exception("sinal invalido")
@@ -109,6 +122,7 @@ class Memoria(threading.Thread):
         if tipo == Consts.T_E_INSTRUCAO:
             self.get_instrucao_entrada(sinal)
         else:
+            Consts.running = False
             raise Exception("sinal invalido")
 
     def proximo_endereco(self, endereco):
@@ -119,6 +133,7 @@ class Memoria(threading.Thread):
 
     def ler_instrucao(self, endereco):
         if endereco + Consts.CODE_SIZE > self.code_slice:
+            Consts.running = False
             raise MemoryError("instrucoes devem ser encontradas ate a posicao "
                               "de memoria "+str(self.anterior_endereco(self.code_slice)) + " informado "+str(endereco))
 
@@ -126,6 +141,7 @@ class Memoria(threading.Thread):
 
     def escrever_instrucao(self, pos, instrucao):
         if pos + Consts.CODE_SIZE > self.code_slice:
+            Consts.running = False
             raise MemoryError("instrucoes devem ser encontradas ate a posicao "
                               "de memoria "+str(self.anterior_endereco(self.code_slice)) + " informado "+str(pos))
         At.append_array(instrucao, self.memoria, pos, Consts.CODE_SIZE)
@@ -138,7 +154,7 @@ class Memoria(threading.Thread):
         self.log.write_line('memoria => sinal enviado')
 
         while self.dado is None:
-            self.log.write_line("memoria =>> esperando dado")
+            # self.log.write_line("memoria =>> esperando dado")
             pass
 
         self.escrever_instrucao(pos, self.dado[Consts.T_DADOS])

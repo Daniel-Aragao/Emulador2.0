@@ -15,7 +15,7 @@ larguraBanda = (clock * larguraBarramento) // 8
 # tamanho da memoria de 32* 2**0 a 32 * 2**19 ( 32 * 2**X)
 MEMORIA_X_MIN = 0
 MEMORIA_X_MAX = 19
-MEMORIA_X = 4  # 2
+MEMORIA_X = 1  # 2
 MEMORIA_CODE_SLICE = 1.0/2
 
 
@@ -74,7 +74,7 @@ INSTRUCOES = {
     "dec": Instrucao("dec", 3, 1),
     "label": Instrucao("label", 4, 1),
     "add": Instrucao("add", 5, 2),
-    "mov": Instrucao("mov", 6, 2),
+    "mov": Instrucao("mov", 6, 3),
     "imul": Instrucao("imul", 7, 3),
     "condicao": Instrucao("condicao", 8, 5)
 }

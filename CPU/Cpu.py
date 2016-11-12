@@ -67,6 +67,7 @@ class Cpu(threading.Thread):
         instrucao = self.dado[Consts.T_DADOS]
         if len(self.loops):
             if self.registradores["CI"] == self.loops[0].posmem:
+                Consts.running = False
                 raise MemoryError("memoria insuficiente")
 
         self.processar(instrucao)
@@ -80,6 +81,7 @@ class Cpu(threading.Thread):
         if instrucao[0] == Consts.INSTRUCOES["end"].codigo:
             Consts.running = False
             self.registradores["CI"] = -1
+            self.barramento.exibir_dados()
         elif instrucao[0] == Consts.INSTRUCOES["inc"].codigo:
             val = instrucao[1]
             if self.is_registrador(val):
@@ -88,6 +90,7 @@ class Cpu(threading.Thread):
                 valor = self.get_valor(val)
                 self.enviar_valor_memoria(-val, valor + 1)
             else:
+                Consts.running = False
                 raise ValueError(val + " precisa ser posicao de memoria ou um registrador para a operacao 'inc'")
 
         elif instrucao[0] == Consts.INSTRUCOES["dec"].codigo:
@@ -98,6 +101,7 @@ class Cpu(threading.Thread):
                 valor = self.get_valor(val)
                 self.enviar_valor_memoria(-val, valor - 1)
             else:
+                Consts.running = False
                 raise ValueError(val + " precisa ser posicao de memoria ou um registrador para a operacao 'dec'")
 
         elif instrucao[0] == Consts.INSTRUCOES["add"].codigo:
@@ -108,11 +112,19 @@ class Cpu(threading.Thread):
                 self.enviar_valor_memoria(-instrucao[1], val)
 
         elif instrucao[0] == Consts.INSTRUCOES["mov"].codigo:
-            val = self.get_valor(instrucao[2])
-            if self.is_registrador(instrucao[1]):
-                self.registradores[chr(int(-instrucao[1]))] = val
-            elif self.is_pos_memoria(instrucao[1]):
-                self.enviar_valor_memoria(-instrucao[1], val)
+            pointer = bool(instrucao[1])
+            val = self.get_valor(instrucao[3])
+            if not pointer and self.is_registrador(instrucao[2]):
+                self.registradores[chr(int(-instrucao[2]))] = val
+            elif pointer or self.is_pos_memoria(instrucao[2]):
+                if pointer:
+                    if not self.is_registrador(instrucao[2]):
+                        Consts.running = False
+                        raise SyntaxError("Ponteiros devem ser acompanhados de um registrador")
+
+                    self.enviar_valor_memoria(self.registradores[chr(int(-instrucao[2]))], val)
+                else:
+                    self.enviar_valor_memoria(-instrucao[2], val)
 
         elif instrucao[0] == Consts.INSTRUCOES["imul"].codigo:
             val = self.get_valor(instrucao[3]) * self.get_valor(instrucao[2])
@@ -125,6 +137,7 @@ class Cpu(threading.Thread):
             if not self.existe_label(instrucao[1]):
                 self.loops.append(Loop(self.registradores["CI"], instrucao[1]))
             else:
+                Consts.running = False
                 raise Exception("a label " + instrucao[1] + " ja existe")
 
         elif instrucao[0] == Consts.INSTRUCOES["condicao"].codigo:
@@ -138,6 +151,7 @@ class Cpu(threading.Thread):
             else:
                 self.go_to_loop(instrucao[5])
         else:
+            Consts.running = False
             raise Exception("instrucao invalida codigo:"+str(instrucao[0]))
 
         self.log.write_line(str(self.registradores))
@@ -146,7 +160,8 @@ class Cpu(threading.Thread):
         if label:
             loop = self.get_loop(label)
             if loop is None:
-                raise Exception("label nao encontrada")
+                Consts.running = False
+                raise SyntaxError("label " + str(label) + " nao encontrada")
             else:
                 self.registradores["CI"] = loop.posmem
                 self.tipoSinal = Consts.T_RL_INSTRUCAO
@@ -163,6 +178,13 @@ class Cpu(threading.Thread):
             if i.codigo == label:
                 return True
         return False
+
+    def remove_loop(self, label):
+        for i in self.loops:
+            if i.codigo == label:
+                label = i
+                break
+        self.loops.pop(label)
 
     def get_loop(self, label):
         for i in self.loops:

@@ -62,24 +62,7 @@ class Barramento(threading.Thread):
 
             totaltime += time.time() - lasttime
             if totaltime >= Consts.sleep:
-                self.logi.write_line("---------dados-do-segundo-------")
-
-                self.logi.write_line("registradores: " + str(Consts.Componentes[Consts.CPU].registradores))
-                mem = Consts.Componentes[Consts.RAM]
-                if Consts.MEMORIA_X < 9:
-                    self.logi.write_line("memoria codigo: " + str(mem.memoria[:mem.code_slice:]))
-                    self.logi.write_line("memoria valores: " + str(mem.memoria[mem.code_slice::]))
-
-                self.logi.write_line("fila_sinal: " + str(self.sinal_bytes))
-
-                self.logi.write_line("fila_enderecos: " + str(self.enderecos_bytes))
-
-                self.logi.write_line("fila_dados: " + str(self.dados_bytes))
-
-                tempo = time.localtime()
-                self.logi.write_line("tempo: " + str(tempo.tm_hour) + ":" + str(tempo.tm_min)+":"+str(tempo.tm_sec))
-
-                self.logi.write_line("--------------------------------")
+                self.exibir_dados()
 
                 totaltime = 0
                 self.sinal_bytes = 0
@@ -89,6 +72,24 @@ class Barramento(threading.Thread):
             lasttime = time.time()
 
         self.log.write_line("Barramento => end")
+
+    def exibir_dados(self):
+        self.logi.write_line("---------dados-do-segundo-------")
+        self.logi.write_line("registradores: " + str(Consts.Componentes[Consts.CPU].registradores))
+        mem = Consts.Componentes[Consts.RAM]
+        if Consts.MEMORIA_X < 9:
+            self.logi.write_line("memoria codigo: " + str(mem.memoria[:mem.code_slice:]))
+            self.logi.write_line("memoria valores: " + str(mem.memoria[mem.code_slice+1::]))
+        else:
+            self.logi.write_line("memoria codigo: " + str(mem.memoria[:mem.code_slice:][:500:]))
+            self.logi.write_line("memoria valores: " + str(mem.memoria[mem.code_slice + 1::][:500:]))
+
+        self.logi.write_line("fila_sinal: " + str(self.sinal_bytes))
+        self.logi.write_line("fila_enderecos: " + str(self.enderecos_bytes))
+        self.logi.write_line("fila_dados: " + str(self.dados_bytes))
+        tempo = time.localtime()
+        self.logi.write_line("tempo: " + str(tempo.tm_hour) + ":" + str(tempo.tm_min) + ":" + str(tempo.tm_sec))
+        self.logi.write_line("--------------------------------")
 
     def disparar_sinais(self):
         self.sinalLock.acquire()
