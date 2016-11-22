@@ -22,7 +22,7 @@ class Computador:
 
         ram = Memoria(barramento, Consts.MEMORIA_X)
         entrada = Entrada(barramento)
-        cpu = Cpu(barramento)
+        cpu = Cpu(barramento, ram.tamanho)
 
         Consts.Componentes[Consts.RAM] = ram
         Consts.Componentes[Consts.ENTRADA] = entrada

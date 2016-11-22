@@ -1,7 +1,7 @@
 from COMPUTADOR import Constantes as Consts
 import threading
 from ILOGS.Logs import LogNone
-from Cache import Cache
+from Cache import CacheLRU
 
 
 class Cpu(threading.Thread):
@@ -13,7 +13,7 @@ class Cpu(threading.Thread):
     PASSO_ENDERECO_DADO = 1
     PASSO_PROCESSAMENTO = 2
 
-    def __init__(self, barramento, log=LogNone()):
+    def __init__(self, barramento, tamanho_ram, log=LogNone()):
         super(Cpu, self).__init__(name="Cpu")
         self.log = log
 
@@ -24,7 +24,9 @@ class Cpu(threading.Thread):
         self.endereco = None
         self.dado = None
         self.loops = []
-        self.cache = Cache()
+        self.cache = CacheLRU(tamanho_ram)
+        # self.cache = CacheLFU(tamanho_ram)
+        # self.cache = CacheFIFO(tamanho_ram)
 
     def run(self):
         self.log.write_line("Cpu => start")
@@ -144,7 +146,7 @@ class Cpu(threading.Thread):
                 self.loops.append(Loop(self.registradores["CI"], instrucao[1]))
             else:
                 Consts.running = False
-                raise Exception("a label " + instrucao[1] + " ja existe")
+                raise Exception("a label " + str(instrucao[1]) + " ja existe")
 
         elif instrucao[0] == Consts.INSTRUCOES["condicao"].codigo:
             val1 = self.get_valor(instrucao[1])
@@ -165,19 +167,19 @@ class Cpu(threading.Thread):
     def go_to_loop(self, label):
         if label:
             loop = self.get_loop(label)
+            # talvez se remover todos os loops apos esse da lista evite problemas com labels seguintes
             if loop is None:
                 Consts.running = False
                 raise SyntaxError("label " + str(label) + " nao encontrada")
             else:
                 self.registradores["CI"] = loop.posmem
                 self.tipoSinal = Consts.T_RL_INSTRUCAO
-                # se sair do loop interno ele saira do externo tbm se tiver soh esse controle, para consertar
-                # sugiro colocar mais um atributo ao objeto loop que controlaria se esta ou n nesse label e ao
-                # passar pela possibilidade de chamar a label remover de la o atributo sendo que se entrar
-                # novamente colocaria o atributo de novo
-                # outra sugestao eh guardar a ci mais antiga ja visitada, resposta provavelmente insoluvel
         else:
+            self.clean_loops()
             self.tipoSinal = Consts.T_L_INSTRUCAO
+
+    def clean_loops(self):
+        self.loops = []
 
     def existe_label(self, label):
         for i in self.loops:
@@ -193,10 +195,16 @@ class Cpu(threading.Thread):
         self.loops.pop(label)
 
     def get_loop(self, label):
+        loop = None
         for i in self.loops:
             if i.codigo == label:
-                return i
-        return None
+                loop = i
+
+        if loop is not None:
+            index = self.loops.index(loop)
+            self.loops = self.loops[:index+1:]
+
+        return loop
 
     @staticmethod
     def is_registrador(valor):
@@ -219,6 +227,7 @@ class Cpu(threading.Thread):
         return self.get_valor_da_memoria(dado)
 
     def get_valor_da_memoria(self, dado):
+        # verificar cache antes
         self.dado = None
         sinal = Consts.get_vetor_conexao(Consts.CPU, Consts.RAM, -dado, Consts.T_L_VALOR)
         self.barramento.enviar_sinal(sinal)
@@ -228,6 +237,7 @@ class Cpu(threading.Thread):
         return self.dado[Consts.T_DADOS]
 
     def enviar_valor_memoria(self, pos, valor):
+        # enviar ao cache antes e soh atualizar memoria depois
         sinal = Consts.get_vetor_conexao(Consts.CPU, Consts.RAM, pos, Consts.T_E_VALOR, len=Consts.T_EVLENGTH)
         sinal[Consts.T_EVALOR_POS] = valor
         self.barramento.enviar_sinal(sinal)

@@ -1,3 +1,18 @@
+mov C, 68
+label 1
+mov A, 0
+mov B, 68
+inc C
+label 20
+mov @A, C
+inc A
+dec B
+A < 68 ? jump 20: 0
+label 15
+inc C
+C >= 80? 0: jump 15
+end
+
 mov A, 0
 mov B, 68
 mov C, 68

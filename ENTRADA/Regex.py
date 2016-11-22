@@ -22,7 +22,7 @@ class Regex:
             "inc": r"(inc)\s+(\w+)\s*",
             "dec": r"(dec)\s+(\w+)\s*",
             "label": r"(label)\s+([^0]\d*)",
-            "condicao": r"(\w+)\s*(<>|<|>|==)\s*(\w+)\s*[?]\s*(?:jump\s+|)(0|\d+)\s*:\s*(?:jump\s+|)(0|\d+)",
+            "condicao": r"(\w+)\s*(<>|<|>|==|>=|<=)\s*(\w+)\s*[?]\s*(?:jump\s+|)(0|\d+)\s*:\s*(?:jump\s+|)(0|\d+)",
             "end": "end"
         }
 

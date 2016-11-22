@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="16565944-787c-4830-b317-e43e1f3a74b4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CPU/Cache.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BARRAMENTO/Barramento.py" afterPath="$PROJECT_DIR$/BARRAMENTO/Barramento.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/COMPUTADOR/Constantes.py" afterPath="$PROJECT_DIR$/COMPUTADOR/Constantes.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/COMPUTADOR/Main.py" afterPath="$PROJECT_DIR$/COMPUTADOR/Main.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CPU/Cache.py" afterPath="$PROJECT_DIR$/CPU/Cache.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CPU/Cpu.py" afterPath="$PROJECT_DIR$/CPU/Cpu.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MEMORIA/Memoria.py" afterPath="$PROJECT_DIR$/MEMORIA/Memoria.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ENTRADA/Regex.py" afterPath="$PROJECT_DIR$/ENTRADA/Regex.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/teste.txt" afterPath="$PROJECT_DIR$/res/teste.txt" />
     </list>
     <ignored path="Arquitetura2.0.iws" />
@@ -24,7 +24,7 @@
     <SUITE FILE_PATH="coverage/Arquitetura2.0$Unittests_in_RegexCode__1_.coverage" NAME="Unittests in RegexCode Coverage Results" MODIFIED="1478547520993" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TESTES" />
     <SUITE FILE_PATH="coverage/Arquitetura2.0$Code.coverage" NAME="Code Coverage Results" MODIFIED="1478546091681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ENTRADA" />
     <SUITE FILE_PATH="coverage/Arquitetura2.0$Unittests_in_RegexCode.coverage" NAME="Unittests in RegexCode Coverage Results" MODIFIED="1478547398591" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TESTES" />
-    <SUITE FILE_PATH="coverage/Arquitetura2.0$Main.coverage" NAME="Main Coverage Results" MODIFIED="1479782152075" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/COMPUTADOR" />
+    <SUITE FILE_PATH="coverage/Arquitetura2.0$Main.coverage" NAME="Main Coverage Results" MODIFIED="1479833947331" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/COMPUTADOR" />
     <SUITE FILE_PATH="coverage/Arquitetura2.0$Buffer.coverage" NAME="Buffer Coverage Results" MODIFIED="1478469803338" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ENTRADA" />
     <SUITE FILE_PATH="coverage/Arquitetura2.0$Cpu.coverage" NAME="Cpu Coverage Results" MODIFIED="1478578050789" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/CPU" />
     <SUITE FILE_PATH="coverage/Arquitetura2.0$Unittests_in_MyTestCase.coverage" NAME="Unittests in MyTestCase Coverage Results" MODIFIED="1478547566168" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TESTES" />
@@ -41,18 +41,18 @@
       <file leaf-file-name="Constantes.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/COMPUTADOR/Constantes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+            <state relative-caret-position="168">
+              <caret line="90" column="10" selection-start-line="90" selection-start-column="10" selection-end-line="90" selection-end-column="10" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="teste.txt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="teste.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/res/teste.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="5" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
+            <state relative-caret-position="136">
+              <caret line="8" column="5" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -61,7 +61,7 @@
       <file leaf-file-name="Barramento.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BARRAMENTO/Barramento.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
+            <state relative-caret-position="17">
               <caret line="91" column="64" selection-start-line="91" selection-start-column="64" selection-end-line="91" selection-end-column="64" />
               <folding>
                 <element signature="e#0#43#0" expanded="true" />
@@ -73,8 +73,8 @@
       <file leaf-file-name="Memoria.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MEMORIA/Memoria.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+            <state relative-caret-position="510">
+              <caret line="35" column="38" selection-start-line="35" selection-start-column="38" selection-end-line="35" selection-end-column="38" />
               <folding>
                 <element signature="e#0#43#0" expanded="true" />
               </folding>
@@ -82,13 +82,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Cpu.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Cpu.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CPU/Cpu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="35" column="55" selection-start-line="35" selection-start-column="55" selection-end-line="35" selection-end-column="55" />
+            <state relative-caret-position="191">
+              <caret line="181" column="14" selection-start-line="181" selection-start-column="14" selection-end-line="181" selection-end-column="14" />
               <folding>
                 <element signature="e#0#43#0" expanded="true" />
+                <marker date="1479833562815" expanded="true" signature="6058:6326" ph="..." />
+                <marker date="1479833562815" expanded="true" signature="7491:7515" ph="..." />
+                <marker date="1479833562815" expanded="true" signature="7871:8120" ph="..." />
+                <marker date="1479833562815" expanded="true" signature="8009:8099" ph="..." />
               </folding>
             </state>
           </provider>
@@ -97,8 +101,8 @@
       <file leaf-file-name="Cache.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CPU/Cache.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="23" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+            <state relative-caret-position="136">
+              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -107,8 +111,8 @@
       <file leaf-file-name="Main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/COMPUTADOR/Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="19" column="29" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
+            <state relative-caret-position="306">
+              <caret line="24" column="41" selection-start-line="24" selection-start-column="41" selection-end-line="24" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -129,8 +133,8 @@
       <file leaf-file-name="Regex.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ENTRADA/Regex.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="26" column="9" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
+            <state relative-caret-position="142">
+              <caret line="24" column="50" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -179,15 +183,15 @@
         <option value="$PROJECT_DIR$/ILOGS/Logs.py" />
         <option value="$PROJECT_DIR$/INTERFACES/Interface.py" />
         <option value="$PROJECT_DIR$/ENTRADA/Entrada.py" />
-        <option value="$PROJECT_DIR$/ENTRADA/Regex.py" />
-        <option value="$PROJECT_DIR$/COMPUTADOR/Main.py" />
         <option value="$PROJECT_DIR$/ENTRADA/Code.py" />
+        <option value="$PROJECT_DIR$/BARRAMENTO/Barramento.py" />
         <option value="$PROJECT_DIR$/MEMORIA/Memoria.py" />
+        <option value="$PROJECT_DIR$/COMPUTADOR/Main.py" />
         <option value="$PROJECT_DIR$/CPU/Cache.py" />
         <option value="$PROJECT_DIR$/CPU/Cpu.py" />
-        <option value="$PROJECT_DIR$/BARRAMENTO/Barramento.py" />
         <option value="$PROJECT_DIR$/COMPUTADOR/Constantes.py" />
         <option value="$PROJECT_DIR$/res/teste.txt" />
+        <option value="$PROJECT_DIR$/ENTRADA/Regex.py" />
       </list>
     </option>
   </component>
@@ -255,6 +259,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -263,9 +268,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Arquitetura2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Arquitetura2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Arquitetura2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Arquitetura2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CPU" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -641,7 +669,14 @@
       <option name="project" value="LOCAL" />
       <updated>1478548695672</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="correções de entrega">
+      <created>1479782239291</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1479782239291</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -669,9 +704,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.204236" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20726173" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -728,7 +763,8 @@
     <MESSAGE value="barramento aparentemente finalizado, cpu e main inicializados, logica desenvolvida em comentarios da cpu" />
     <MESSAGE value="expressoes regulares" />
     <MESSAGE value="fim do buffer" />
-    <option name="LAST_COMMIT_MESSAGE" value="fim do buffer" />
+    <MESSAGE value="correções de entrega" />
+    <option name="LAST_COMMIT_MESSAGE" value="correções de entrega" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -737,10 +773,6 @@
           <url>file://$PROJECT_DIR$/ENTRADA/Code.py</url>
           <line>75</line>
           <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/CPU/Cpu.py</url>
-          <option name="timeStamp" value="68" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -1042,22 +1074,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/COMPUTADOR/Main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="19" column="29" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ENTRADA/Regex.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="26" column="9" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ENTRADA/Code.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1258">
@@ -1066,44 +1082,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CPU/Cache.py">
+    <entry file="file://$PROJECT_DIR$/MEMORIA/Memoria.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="23" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BARRAMENTO/Barramento.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="91" column="64" selection-start-line="91" selection-start-column="64" selection-end-line="91" selection-end-column="64" />
+        <state relative-caret-position="510">
+          <caret line="35" column="38" selection-start-line="35" selection-start-column="38" selection-end-line="35" selection-end-column="38" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/COMPUTADOR/Constantes.py">
+    <entry file="file://$PROJECT_DIR$/COMPUTADOR/Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        <state relative-caret-position="306">
+          <caret line="24" column="41" selection-start-line="24" selection-start-column="41" selection-end-line="24" selection-end-column="41" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/teste.txt">
+    <entry file="file://$PROJECT_DIR$/CPU/Cache.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="5" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
+        <state relative-caret-position="136">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MEMORIA/Memoria.py">
+    <entry file="file://$PROJECT_DIR$/BARRAMENTO/Barramento.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+        <state relative-caret-position="17">
+          <caret line="91" column="64" selection-start-line="91" selection-start-column="64" selection-end-line="91" selection-end-column="64" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
           </folding>
@@ -1112,11 +1120,39 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CPU/Cpu.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="35" column="55" selection-start-line="35" selection-start-column="55" selection-end-line="35" selection-end-column="55" />
+        <state relative-caret-position="191">
+          <caret line="181" column="14" selection-start-line="181" selection-start-column="14" selection-end-line="181" selection-end-column="14" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
+            <marker date="1479833562815" expanded="true" signature="6058:6326" ph="..." />
+            <marker date="1479833562815" expanded="true" signature="7491:7515" ph="..." />
+            <marker date="1479833562815" expanded="true" signature="7871:8120" ph="..." />
+            <marker date="1479833562815" expanded="true" signature="8009:8099" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ENTRADA/Regex.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="24" column="50" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/COMPUTADOR/Constantes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="90" column="10" selection-start-line="90" selection-start-column="10" selection-end-line="90" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/teste.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="5" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>

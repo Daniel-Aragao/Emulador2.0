@@ -1,7 +1,8 @@
 from COMPUTADOR import Constantes as Consts
 
 
-class Cache:
+class CacheLRU:
 
-    def __init__(self):
-        Consts.running
+    def __init__(self, tamanho_memoria):
+        self.tamanho_memoria = tamanho_memoria
+        self.tamanho = Consts.CACHE_TAX * tamanho_memoria

@@ -18,6 +18,9 @@ MEMORIA_X_MAX = 19
 MEMORIA_X = 2  # 2
 MEMORIA_CODE_SLICE = 1.0/2
 
+# cache em porcentagem da memoria 1.0 a 1.1
+CACHE_TAX = 1.1
+
 
 def get_memoria_code_sliced(t):
     return int(t * MEMORIA_CODE_SLICE)
@@ -83,7 +86,9 @@ CONDICOES = {
     "<": 1,
     ">": 2,
     "<>": 3,
-    "==": 4
+    "==": 4,
+    ">=": 5,
+    "<=": 6
 }
 
 
