@@ -6,7 +6,7 @@ Componentes = [0, 1, 2]
 running = False
 
 # clock = [10^2 hz a 10^9 hz]
-clock = 100
+clock = 1000
 # lbar = [2^3, 2^7] em bits
 larguraBarramento = 128  # 16
 # lbanda = (clock * lbar)// 8 bits  => 8 bits = 1 byte
@@ -15,7 +15,7 @@ larguraBanda = (clock * larguraBarramento) // 8
 # tamanho da memoria de 32* 2**0 a 32 * 2**19 ( 32 * 2**X)
 MEMORIA_X_MIN = 0
 MEMORIA_X_MAX = 19
-MEMORIA_X = 1  # 2
+MEMORIA_X = 2  # 2
 MEMORIA_CODE_SLICE = 1.0/2
 
 

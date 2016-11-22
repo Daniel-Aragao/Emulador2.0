@@ -7,8 +7,6 @@ from COMPUTADOR.ArrayTools import ArrayTools as At
 
 
 class Memoria(threading.Thread):
-    # tamanho da memoria vai ate 32gb
-    # enxer a memoria com dados repetidos
     # implementar cache usando lru, lfu e cooldown
     # fazer um relatorio dizendo qual o melhor em termos de hits e misses do cache
     # configurar o algoritmo walk throught da cache x:1 ( x mudanca no cache atualiza a ram, se chegar nao chegar em x
@@ -27,10 +25,10 @@ class Memoria(threading.Thread):
             tamanho = Consts.MEMORIA_X_MAX
             # log.write_line('tamanho de memoria muito grande, o tamanho maximo foi escolhido')
 
-        self.tamanho = 32 * 2**tamanho
+        self.tamanho = 32 * (2**tamanho)
         codeslice = Consts.get_memoria_code_sliced(self.tamanho)
-        self.code_slice = codeslice - codeslice % Consts.CODE_SIZE
-        self.tamanho_total_valor = 32 * 2**self.tamanho_informado - self.code_slice
+        self.code_slice = codeslice - (codeslice % Consts.CODE_SIZE)
+        self.tamanho_total_valores = (32 * (2**self.tamanho_informado)) - self.code_slice
         self.memoria = [0 for i in range(self.tamanho)]
         self.sinais = Queue()
         self.dado = None
@@ -82,7 +80,7 @@ class Memoria(threading.Thread):
                 raise MemoryError("Posicao de memoria inexistente")
 
             if self.tamanho - 1 < endereco:
-                if (self.tamanho_total_valor + self.code_slice) < endereco:
+                if (self.tamanho_total_valores + self.code_slice) < endereco:
                     raise MemoryError("Posicao de memoria " + str(endereco - self.code_slice) + " inexistente")
 
                 dado = Consts.get_vetor_conexao(Consts.RAM, Consts.CPU, 0, tipo)
@@ -98,7 +96,7 @@ class Memoria(threading.Thread):
             endereco += self.code_slice
 
             if self.tamanho - 1 < endereco:
-                if (self.tamanho_total_valor + self.code_slice) < endereco:
+                if (self.tamanho_total_valores + self.code_slice) < endereco:
                     Consts.running = False
                     raise MemoryError("Posicao de memoria " + str(endereco - self.code_slice) + " inexistente")
             else:

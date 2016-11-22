@@ -79,7 +79,7 @@ class Barramento(threading.Thread):
         mem = Consts.Componentes[Consts.RAM]
         if Consts.MEMORIA_X < 9:
             self.logi.write_line("memoria codigo: " + str(mem.memoria[:mem.code_slice:]))
-            self.logi.write_line("memoria valores: " + str(mem.memoria[mem.code_slice+1::]))
+            self.logi.write_line("memoria valores: " + str(mem.memoria[mem.code_slice::]))
         else:
             self.logi.write_line("memoria codigo: " + str(mem.memoria[:mem.code_slice:][:500:]))
             self.logi.write_line("memoria valores: " + str(mem.memoria[mem.code_slice + 1::][:500:]))
@@ -88,7 +88,7 @@ class Barramento(threading.Thread):
         self.logi.write_line("fila_enderecos: " + str(self.enderecos_bytes))
         self.logi.write_line("fila_dados: " + str(self.dados_bytes))
         tempo = time.localtime()
-        self.logi.write_line("tempo: " + str(tempo.tm_hour) + ":" + str(tempo.tm_min) + ":" + str(tempo.tm_sec))
+        self.logi.write_line("tempo: " + '{0:02}:{1:02}:{2:02}'.format(tempo.tm_hour, tempo.tm_min, tempo.tm_sec))
         self.logi.write_line("--------------------------------")
 
     def disparar_sinais(self):

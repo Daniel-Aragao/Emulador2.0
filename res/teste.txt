@@ -1,16 +1,20 @@
 mov A, 0
+mov B, 68
+mov C, 68
+label 20
+mov @A, B
+inc A
+dec B
+A < 68 ? jump 20:0
+end
+
+mov A, 0
 label 20
 inc A
 mov @A, 200
 A < 34 ? jump 20:0
 end
 
-mov A, 32323232320
-label 20
-inc A
-mov @A, 23
-A < 32323232324 ? jump 20:0
-end
 
 MEMORIA_X = 4
 larguraBarramento = 128
@@ -31,4 +35,9 @@ mov 0x0002, A
 end
 
 
-
+mov A, 0
+label 20
+inc A
+mov @A, A
+A < 8388608 ? jump 20:0
+end

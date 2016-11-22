@@ -1,9 +1,14 @@
 from COMPUTADOR import Constantes as Consts
 import threading
 from ILOGS.Logs import LogNone
+from Cache import Cache
 
 
 class Cpu(threading.Thread):
+    # onde for get, valor ou endereco, deve ser verificado antes na cache qual a posicao
+    # a ser pesquisada, pois a mesma pode estar salva na cache
+    # toda vez q algo vier da memoria deve ser salvo em cache, instrucoes, pos de memoria
+    # objeto representara uma celula do cache
     PASSO_SINAL = 0
     PASSO_ENDERECO_DADO = 1
     PASSO_PROCESSAMENTO = 2
@@ -19,6 +24,7 @@ class Cpu(threading.Thread):
         self.endereco = None
         self.dado = None
         self.loops = []
+        self.cache = Cache()
 
     def run(self):
         self.log.write_line("Cpu => start")
