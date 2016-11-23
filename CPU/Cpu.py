@@ -2,6 +2,7 @@ from COMPUTADOR import Constantes as Consts
 import threading
 from ILOGS.Logs import LogNone
 from Cache import CacheLRU
+from Cache import CacheLFU
 
 
 class Cpu(threading.Thread):
@@ -24,9 +25,9 @@ class Cpu(threading.Thread):
         self.endereco = None
         self.dado = None
         self.loops = []
-        self.cache = CacheLRU(tamanho_ram)
-        # self.cache = CacheLFU(tamanho_ram)
-        # self.cache = CacheFIFO(tamanho_ram)
+        # self.cache = CacheLRU(tamanho_ram, self.atualizar)
+        self.cache = CacheLFU(tamanho_ram, self.atualizar)
+        # self.cache = CacheCoolDown(tamanho_ram, self.atualizar)
 
     def run(self):
         self.log.write_line("Cpu => start")
@@ -42,22 +43,32 @@ class Cpu(threading.Thread):
             elif self.passo == Cpu.PASSO_PROCESSAMENTO:
                 self.passo_processamento()
                 # self.log.write_line('cpu => processar instrucao')
-
+        self.cache.atualizar_todos()
         self.log.write_line("Cpu => end")
 
     def enviar_sinal(self):
         if self.registradores["CI"] != -1:
             sinalram = Consts.get_vetor_conexao(Consts.CPU, Consts.RAM, self.registradores["CI"],
                                                 self.tipoSinal)
-            self.barramento.enviar_sinal(sinalram)
 
-            if self.tipoSinal == Consts.T_L_INSTRUCAO:
-                sinalentrada = Consts.get_vetor_conexao(Consts.CPU, Consts.ENTRADA, self.registradores["CI"],
-                                                        self.tipoSinal)
-                self.barramento.enviar_sinal(sinalentrada)
+            # neste ponto vai buscar no cache, caso nao tenha, vai buscar na memoria( continua o processo normal)
+            cacheresult = self.cache.get(self.registradores["CI"])
 
-            self.passo = Cpu.PASSO_ENDERECO_DADO
-            self.log.write_line('cpu => sinal enviado')
+            if cacheresult is not None:
+                # cacheresult sera uma tupla com proximo ci[0] e a informacao guardada[1]
+                self.registradores["CI"] = cacheresult[0]
+                self.dado = cacheresult[1]
+                self.passo = Cpu.PASSO_PROCESSAMENTO
+            else:
+                self.barramento.enviar_sinal(sinalram)
+
+                if self.tipoSinal == Consts.T_L_INSTRUCAO:
+                    sinalentrada = Consts.get_vetor_conexao(Consts.CPU, Consts.ENTRADA, self.registradores["CI"],
+                                                            self.tipoSinal)
+                    self.barramento.enviar_sinal(sinalentrada)
+
+                self.passo = Cpu.PASSO_ENDERECO_DADO
+                self.log.write_line('cpu => sinal enviado')
 
     def receber_endereco(self, endereco):
         self.endereco = endereco
@@ -68,8 +79,12 @@ class Cpu(threading.Thread):
     def esperar_informacao(self):
         if (self.dado is not None) and (self.endereco is not None):
             self.log.write_line('cpu => endereco e dado recebidos')
+            endereco_anterior = self.registradores["CI"]
             self.registradores["CI"] = self.endereco[Consts.T_DADOS]
             self.passo = Cpu.PASSO_PROCESSAMENTO
+
+            # quando a informacao chegar ela deve ser colocada na cache
+            self.cache.add(endereco_anterior, (self.registradores["CI"], self.dado))
 
     def passo_processamento(self):
         instrucao = self.dado[Consts.T_DADOS]
@@ -87,6 +102,7 @@ class Cpu(threading.Thread):
 
     def processar(self, instrucao):
         if instrucao[0] == Consts.INSTRUCOES["end"].codigo:
+            self.cache.atualizar_todos()
             Consts.running = False
             self.registradores["CI"] = -1
             self.barramento.exibir_dados()
@@ -96,7 +112,7 @@ class Cpu(threading.Thread):
                 self.registradores[chr(int(-val))] += 1
             elif self.is_pos_memoria(val):
                 valor = self.get_valor(val)
-                self.enviar_valor_memoria(-val, valor + 1)
+                self.enviar_valor_memoria(val, valor + 1)
             else:
                 Consts.running = False
                 raise ValueError(val + " precisa ser posicao de memoria ou um registrador para a operacao 'inc'")
@@ -107,7 +123,7 @@ class Cpu(threading.Thread):
                 self.registradores[chr(int(-val))] -= 1
             elif self.is_pos_memoria(val):
                 valor = self.get_valor(val)
-                self.enviar_valor_memoria(-val, valor - 1)
+                self.enviar_valor_memoria(val, valor - 1)
             else:
                 Consts.running = False
                 raise ValueError(val + " precisa ser posicao de memoria ou um registrador para a operacao 'dec'")
@@ -117,7 +133,7 @@ class Cpu(threading.Thread):
             if self.is_registrador(instrucao[1]):
                 self.registradores[chr(int(-instrucao[1]))] = val
             elif self.is_pos_memoria(instrucao[1]):
-                self.enviar_valor_memoria(-instrucao[1], val)
+                self.enviar_valor_memoria(instrucao[1], val)
 
         elif instrucao[0] == Consts.INSTRUCOES["mov"].codigo:
             pointer = bool(instrucao[1])
@@ -130,16 +146,16 @@ class Cpu(threading.Thread):
                         Consts.running = False
                         raise SyntaxError("Ponteiros devem ser acompanhados de um registrador")
 
-                    self.enviar_valor_memoria(self.registradores[chr(int(-instrucao[2]))], val)
+                    self.enviar_valor_memoria(-self.registradores[chr(int(-instrucao[2]))], val)
                 else:
-                    self.enviar_valor_memoria(-instrucao[2], val)
+                    self.enviar_valor_memoria(instrucao[2], val)
 
         elif instrucao[0] == Consts.INSTRUCOES["imul"].codigo:
             val = self.get_valor(instrucao[3]) * self.get_valor(instrucao[2])
             if self.is_registrador(instrucao[1]):
                 self.registradores[chr(int(-instrucao[1]))] = val
             elif self.is_pos_memoria(instrucao[1]):
-                self.enviar_valor_memoria(-instrucao[1], val)
+                self.enviar_valor_memoria(instrucao[1], val)
 
         elif instrucao[0] == Consts.INSTRUCOES["label"].codigo:
             if not self.existe_label(instrucao[1]):
@@ -228,19 +244,29 @@ class Cpu(threading.Thread):
 
     def get_valor_da_memoria(self, dado):
         # verificar cache antes
+        cacheresult = self.cache.get(dado)
         self.dado = None
-        sinal = Consts.get_vetor_conexao(Consts.CPU, Consts.RAM, -dado, Consts.T_L_VALOR)
-        self.barramento.enviar_sinal(sinal)
-        while self.dado is None:
-            # self.log.write_line("cpu => esperando dado")
-            pass
-        return self.dado[Consts.T_DADOS]
+        if cacheresult is not None:
+            return cacheresult
+        else:
+            sinal = Consts.get_vetor_conexao(Consts.CPU, Consts.RAM, -dado, Consts.T_L_VALOR)
+            self.barramento.enviar_sinal(sinal)
+            while self.dado is None:
+                # self.log.write_line("cpu => esperando dado")
+                pass
+            self.cache.add(dado, self.dado[Consts.T_DADOS])
+            return self.dado[Consts.T_DADOS]
 
     def enviar_valor_memoria(self, pos, valor):
-        # enviar ao cache antes e soh atualizar memoria depois
-        sinal = Consts.get_vetor_conexao(Consts.CPU, Consts.RAM, pos, Consts.T_E_VALOR, len=Consts.T_EVLENGTH)
-        sinal[Consts.T_EVALOR_POS] = valor
-        self.barramento.enviar_sinal(sinal)
+        # enviar ao cache
+        self.cache.add(pos, valor)
+
+    def atualizar(self, pos, valor):
+        if not isinstance(valor, type(())):
+            sinal = Consts.get_vetor_conexao(Consts.CPU, Consts.RAM, -pos, Consts.T_E_VALOR, len=Consts.T_EVLENGTH)
+            sinal[Consts.T_EVALOR_POS] = valor
+            self.barramento.enviar_sinal(sinal)
+            # raise NotImplementedError("Eeeeita")
 
 
 class Loop:

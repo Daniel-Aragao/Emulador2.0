@@ -1,16 +1,14 @@
-mov C, 68
+mov 0x0001, 80
 label 1
-mov A, 0
-mov B, 68
-inc C
+mov A, 3
+inc 0x0001
 label 20
-mov @A, C
+mov @A, 27
 inc A
-dec B
-A < 68 ? jump 20: 0
+A < 1668 ? jump 20: 0
 label 15
-inc C
-C >= 80? 0: jump 15
+inc 0x0001
+0x0001 >= 80? 0: jump 15
 end
 
 mov A, 0

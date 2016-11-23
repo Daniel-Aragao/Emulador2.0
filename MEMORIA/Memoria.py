@@ -46,7 +46,7 @@ class Memoria(threading.Thread):
 
     def run(self):
         self.log.write_line("Memoria= >> start")
-        while Consts.running:
+        while Consts.running or not self.sinais.empty():
             if not self.sinais.empty():
                 self.log.write_line('memoria =>> receber sinal')
                 self.processar_sinal(self.sinais.get(timeout=Consts.timeout))

@@ -48,12 +48,21 @@ class Barramento(threading.Thread):
 
         self.dadosLock.release()
 
+    def isfilas_vazias(self):
+        # if self.fila_dados:
+        #     return False
+        # if self.fila_sinal:
+        #     return False
+        # if self.fila_endereco:
+        #     return False
+        return True
+
     def run(self):
         self.log.write_line("Barramento => start")
 
         lasttime = time.time()
         totaltime = 0
-        while Consts.running:
+        while Consts.running or not self.isfilas_vazias():
             self.disparar_sinais()
 
             self.disparar_enderecos()
@@ -83,12 +92,20 @@ class Barramento(threading.Thread):
         else:
             self.logi.write_line("memoria codigo: " + str(mem.memoria[:mem.code_slice:][:500:]))
             self.logi.write_line("memoria valores: " + str(mem.memoria[mem.code_slice + 1::][:500:]))
+        cpu = Consts.Componentes[Consts.CPU]
+        self.logi.write_line("Cache: " + str(cpu.cache.tamanho) +
+                             " | Hit(%):" + str(cpu.cache.percemhit()) +
+                             " | Hits:" + str(cpu.cache.hit) +
+                             " | Misses:" + str(cpu.cache.miss))
 
         self.logi.write_line("fila_sinal: " + str(self.sinal_bytes))
         self.logi.write_line("fila_enderecos: " + str(self.enderecos_bytes))
         self.logi.write_line("fila_dados: " + str(self.dados_bytes))
         tempo = time.localtime()
         self.logi.write_line("tempo: " + '{0:02}:{1:02}:{2:02}'.format(tempo.tm_hour, tempo.tm_min, tempo.tm_sec))
+        self.logi.write_line("cpu online: " + str(cpu.is_alive()) + " | memoria online: " +
+                             str(mem.is_alive()) + " | entrada online: " +
+                             str(Consts.Componentes[Consts.ENTRADA].is_alive()))
         self.logi.write_line("--------------------------------")
 
     def disparar_sinais(self):
