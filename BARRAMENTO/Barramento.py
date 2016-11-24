@@ -84,7 +84,11 @@ class Barramento(threading.Thread):
 
     def exibir_dados(self):
         self.logi.write_line("---------dados-do-segundo-------")
+
+        # registradores
         self.logi.write_line("registradores: " + str(Consts.Componentes[Consts.CPU].registradores))
+
+        # memoria
         mem = Consts.Componentes[Consts.RAM]
         if Consts.MEMORIA_X < 9:
             self.logi.write_line("memoria codigo: " + str(mem.memoria[:mem.code_slice:]))
@@ -92,8 +96,22 @@ class Barramento(threading.Thread):
         else:
             self.logi.write_line("memoria codigo: " + str(mem.memoria[:mem.code_slice:][:500:]))
             self.logi.write_line("memoria valores: " + str(mem.memoria[mem.code_slice + 1::][:500:]))
+
+        # cache
         cpu = Consts.Componentes[Consts.CPU]
-        self.logi.write_line("Cache: " + str(cpu.cache.tamanho) +
+        cacheselected = "Cache "
+        if Consts.CACHE_SELECTOR == 1:
+            cacheselected += 'LRU'
+        elif Consts.CACHE_SELECTOR == 2:
+            cacheselected += 'LFU'
+        elif Consts.CACHE_SELECTOR == 3:
+            cacheselected += 'Cooldown'
+
+        self.logi.write_line(cacheselected)
+
+        # barramento
+        self.logi.write_line("Tamanho: " + str(cpu.cache.tamanho) +
+                             " | In cache: " + str(cpu.cache.in_dict) +
                              " | Hit(%):" + str(cpu.cache.percemhit()) +
                              " | Hits:" + str(cpu.cache.hit) +
                              " | Misses:" + str(cpu.cache.miss))
@@ -103,6 +121,9 @@ class Barramento(threading.Thread):
         self.logi.write_line("fila_dados: " + str(self.dados_bytes))
         tempo = time.localtime()
         self.logi.write_line("tempo: " + '{0:02}:{1:02}:{2:02}'.format(tempo.tm_hour, tempo.tm_min, tempo.tm_sec))
+
+        # threads
+        self.logi.write_line("Threads: " + str([i.name for i in threading.enumerate()]))
         self.logi.write_line("cpu online: " + str(cpu.is_alive()) + " | memoria online: " +
                              str(mem.is_alive()) + " | entrada online: " +
                              str(Consts.Componentes[Consts.ENTRADA].is_alive()))

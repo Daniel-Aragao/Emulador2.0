@@ -5,10 +5,11 @@ inc 0x0001
 label 20
 mov @A, 27
 inc A
-A < 1668 ? jump 20: 0
+A < 1280 ? jump 20: 0
 label 15
 inc 0x0001
-0x0001 >= 80? 0: jump 15
+0x0001 >= 90? 0: jump 15
+mov D, 24
 end
 
 mov A, 0

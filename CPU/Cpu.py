@@ -3,6 +3,7 @@ import threading
 from ILOGS.Logs import LogNone
 from Cache import CacheLRU
 from Cache import CacheLFU
+from Cache import CacheCoolDown
 
 
 class Cpu(threading.Thread):
@@ -25,9 +26,13 @@ class Cpu(threading.Thread):
         self.endereco = None
         self.dado = None
         self.loops = []
-        # self.cache = CacheLRU(tamanho_ram, self.atualizar)
-        self.cache = CacheLFU(tamanho_ram, self.atualizar)
-        # self.cache = CacheCoolDown(tamanho_ram, self.atualizar)
+
+        if Consts.CACHE_SELECTOR == 1:
+            self.cache = CacheLRU(tamanho_ram, self.atualizar)
+        elif Consts.CACHE_SELECTOR == 2:
+            self.cache = CacheLFU(tamanho_ram, self.atualizar)
+        elif Consts.CACHE_SELECTOR == 3:
+            self.cache = CacheCoolDown(tamanho_ram, self.atualizar)
 
     def run(self):
         self.log.write_line("Cpu => start")
@@ -43,14 +48,10 @@ class Cpu(threading.Thread):
             elif self.passo == Cpu.PASSO_PROCESSAMENTO:
                 self.passo_processamento()
                 # self.log.write_line('cpu => processar instrucao')
-        self.cache.atualizar_todos()
         self.log.write_line("Cpu => end")
 
     def enviar_sinal(self):
         if self.registradores["CI"] != -1:
-            sinalram = Consts.get_vetor_conexao(Consts.CPU, Consts.RAM, self.registradores["CI"],
-                                                self.tipoSinal)
-
             # neste ponto vai buscar no cache, caso nao tenha, vai buscar na memoria( continua o processo normal)
             cacheresult = self.cache.get(self.registradores["CI"])
 
@@ -60,6 +61,9 @@ class Cpu(threading.Thread):
                 self.dado = cacheresult[1]
                 self.passo = Cpu.PASSO_PROCESSAMENTO
             else:
+                sinalram = Consts.get_vetor_conexao(Consts.CPU, Consts.RAM, self.registradores["CI"],
+                                                    self.tipoSinal)
+
                 self.barramento.enviar_sinal(sinalram)
 
                 if self.tipoSinal == Consts.T_L_INSTRUCAO:
@@ -102,7 +106,7 @@ class Cpu(threading.Thread):
 
     def processar(self, instrucao):
         if instrucao[0] == Consts.INSTRUCOES["end"].codigo:
-            self.cache.atualizar_todos()
+            # self.cache.atualizar_todos()
             Consts.running = False
             self.registradores["CI"] = -1
             self.barramento.exibir_dados()

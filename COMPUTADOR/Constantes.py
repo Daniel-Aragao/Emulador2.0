@@ -20,9 +20,13 @@ MEMORIA_CODE_SLICE = 1.0/3
 
 # cache em porcentagem da memoria 1.0 a 1.1
 CACHE_TAX_MIN = 0.0
-CACHE_TAX_MAX = 100
+CACHE_TAX_MAX = 0.1
 CACHE_TAX = 0.1
-LIMITE_DE_ATUALIZACOES = 5
+LIMITE_DE_ATUALIZACOES = 1
+CACHE_COOLDOWN = 0.1
+
+# lru = 1, lfu = 2, cooldown = 3
+CACHE_SELECTOR = 3
 
 
 def get_memoria_code_sliced(t):
@@ -100,7 +104,8 @@ def get_condicao_string(valor):
         if CONDICOES[cond] == valor:
             return cond
 
-# defaultPath = r"C:\\Users\danda_000\\Documents\\Estudos, Unifor\\Python\\workspace\\Arquitetura2.0\\res\\file_sample.txt"
+# defaultPath = r"C:\\Users\danda_000\\Documents\\Estudos, Unifor\\Python\\workspace" \
+#               r"\\Arquitetura2.0\\res\\file_sample.txt"
 
 # defaultPath = r"C:\\Users\danda_000\\Documents\\Estudos, Unifor\\Python\\workspace" \
 #               r"\\Arquitetura2.0\\res\\assembly_com_loop.txt"
