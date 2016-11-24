@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="16565944-787c-4830-b317-e43e1f3a74b4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Arquitetura2.0.iml" afterPath="$PROJECT_DIR$/.idea/Arquitetura2.0.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BARRAMENTO/Barramento.py" afterPath="$PROJECT_DIR$/BARRAMENTO/Barramento.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/COMPUTADOR/Constantes.py" afterPath="$PROJECT_DIR$/COMPUTADOR/Constantes.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CPU/Cache.py" afterPath="$PROJECT_DIR$/CPU/Cache.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CPU/Cpu.py" afterPath="$PROJECT_DIR$/CPU/Cpu.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MEMORIA/Memoria.py" afterPath="$PROJECT_DIR$/MEMORIA/Memoria.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/teste.txt" afterPath="$PROJECT_DIR$/res/teste.txt" />
     </list>
     <ignored path="Arquitetura2.0.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,7 +19,7 @@
     <SUITE FILE_PATH="coverage/Arquitetura2.0$Unittests_in_RegexCode.coverage" NAME="Unittests in RegexCode Coverage Results" MODIFIED="1478547398591" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TESTES" />
     <SUITE FILE_PATH="coverage/Arquitetura2.0$Unittests_in_RegexCode__1_.coverage" NAME="Unittests in RegexCode Coverage Results" MODIFIED="1478547520993" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TESTES" />
     <SUITE FILE_PATH="coverage/Arquitetura2.0$Code.coverage" NAME="Code Coverage Results" MODIFIED="1478546091681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ENTRADA" />
-    <SUITE FILE_PATH="coverage/Arquitetura2.0$Main.coverage" NAME="Main Coverage Results" MODIFIED="1479962700482" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/COMPUTADOR" />
+    <SUITE FILE_PATH="coverage/Arquitetura2.0$Main.coverage" NAME="Main Coverage Results" MODIFIED="1479993436791" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/COMPUTADOR" />
     <SUITE FILE_PATH="coverage/Arquitetura2.0$Unittests_in_Arquitetura2_0.coverage" NAME="Unittests in Arquitetura2.0 Coverage Results" MODIFIED="1479925690322" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Arquitetura2.0$Buffer.coverage" NAME="Buffer Coverage Results" MODIFIED="1478469803338" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ENTRADA" />
     <SUITE FILE_PATH="coverage/Arquitetura2.0$Cpu.coverage" NAME="Cpu Coverage Results" MODIFIED="1479877201226" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/CPU" />
@@ -49,10 +42,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Constantes.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Constantes.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/COMPUTADOR/Constantes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
+            <state relative-caret-position="93">
               <caret line="28" column="18" lean-forward="false" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="18" />
               <folding />
             </state>
@@ -63,7 +56,7 @@
         <entry file="file://$PROJECT_DIR$/res/inc_end.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="85">
-              <caret line="5" column="5" lean-forward="true" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+              <caret line="5" column="5" lean-forward="false" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -72,18 +65,18 @@
       <file leaf-file-name="teste.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/teste.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+            <state relative-caret-position="187">
+              <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="9" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Cpu.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Cpu.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CPU/Cpu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="26" column="24" lean-forward="false" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
+            <state relative-caret-position="1173">
+              <caret line="74" column="59" lean-forward="false" selection-start-line="74" selection-start-column="59" selection-end-line="74" selection-end-column="59" />
               <folding>
                 <element signature="e#0#43#0" expanded="true" />
               </folding>
@@ -94,7 +87,7 @@
       <file leaf-file-name="Memoria.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MEMORIA/Memoria.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
+            <state relative-caret-position="731">
               <caret line="48" column="31" lean-forward="false" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
               <folding>
                 <element signature="e#0#43#0" expanded="true" />
@@ -118,20 +111,8 @@
       <file leaf-file-name="Cache.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CPU/Cache.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1800">
-              <caret line="321" column="26" lean-forward="false" selection-start-line="321" selection-start-column="26" selection-end-line="321" selection-end-column="26" />
-              <folding>
-                <element signature="e#0#43#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Barramento.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BARRAMENTO/Barramento.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="51" column="27" lean-forward="false" selection-start-line="51" selection-start-column="27" selection-end-line="51" selection-end-column="27" />
+            <state relative-caret-position="270">
+              <caret line="291" column="34" lean-forward="false" selection-start-line="291" selection-start-column="34" selection-end-line="292" selection-end-column="65" />
               <folding>
                 <element signature="e#0#43#0" expanded="true" />
               </folding>
@@ -244,6 +225,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -328,7 +310,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -751,7 +732,14 @@
       <option name="project" value="LOCAL" />
       <updated>1479878374874</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="cd com in cache negativo e mantem os erros de lru e lfu anteriores">
+      <created>1479962796783</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1479962796783</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -784,7 +772,7 @@
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23146747" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23903178" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5958132" sideWeight="0.5045386" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -865,7 +853,8 @@
     <MESSAGE value="fim do buffer" />
     <MESSAGE value="correções de entrega" />
     <MESSAGE value="lru e lfu atingindo a mesma taxa de hit que está por volta de 71~79" />
-    <option name="LAST_COMMIT_MESSAGE" value="lru e lfu atingindo a mesma taxa de hit que está por volta de 71~79" />
+    <MESSAGE value="cd com in cache negativo e mantem os erros de lru e lfu anteriores" />
+    <option name="LAST_COMMIT_MESSAGE" value="cd com in cache negativo e mantem os erros de lru e lfu anteriores" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1186,43 +1175,24 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="74">
           <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/inc_end.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
-          <caret line="5" column="5" lean-forward="true" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+          <caret line="5" column="5" lean-forward="false" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MEMORIA/Memoria.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
+        <state relative-caret-position="731">
           <caret line="48" column="31" lean-forward="false" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BARRAMENTO/Barramento.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="51" column="27" lean-forward="false" selection-start-line="51" selection-start-column="27" selection-end-line="51" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#43#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/teste.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1236,31 +1206,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/COMPUTADOR/Constantes.py">
+    <entry file="file://$PROJECT_DIR$/CPU/Cpu.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="28" column="18" lean-forward="false" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="18" />
+        <state relative-caret-position="1173">
+          <caret line="74" column="59" lean-forward="false" selection-start-line="74" selection-start-column="59" selection-end-line="74" selection-end-column="59" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/teste.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="9" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BARRAMENTO/Barramento.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-9">
+          <caret line="51" column="28" lean-forward="false" selection-start-line="51" selection-start-column="28" selection-end-line="51" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CPU/Cache.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1800">
-          <caret line="321" column="26" lean-forward="false" selection-start-line="321" selection-start-column="26" selection-end-line="321" selection-end-column="26" />
+        <state relative-caret-position="270">
+          <caret line="291" column="34" lean-forward="false" selection-start-line="291" selection-start-column="34" selection-end-line="292" selection-end-column="65" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CPU/Cpu.py">
+    <entry file="file://$PROJECT_DIR$/COMPUTADOR/Constantes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="26" column="24" lean-forward="false" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#43#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="93">
+          <caret line="28" column="18" lean-forward="false" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="18" />
+          <folding />
         </state>
       </provider>
     </entry>

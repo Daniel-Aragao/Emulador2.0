@@ -286,12 +286,11 @@ class CacheCoolDown:
     def remover(self, pos):
         self.atualizar_na_memoria(pos)
         removido = self.cache_dict.pop(pos)
-        tamanho_removido = get_data_size(removido)
+        tamanho_removido = get_data_size(removido.dado)
         self.in_dict -= tamanho_removido
         if self.in_dict < 0:
-            # Consts.running = False
-            # raise Warning('tamanho do cache n pode ser negativo')
-            pass
+            Consts.running = False
+            raise Warning('tamanho do cache n pode ser negativo')
 
     def cabe(self, dado):
         return (self.in_dict + get_data_size(dado)) <= self.tamanho
