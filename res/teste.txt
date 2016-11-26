@@ -1,3 +1,27 @@
+mov 0x0001, 1
+label 3
+inc 0x0001
+mov D, 0x0001
+imul C, 0x0001, D
+mov B, 0x0001
+mov @B, C
+0x0001 < 2040? jump 3: 0
+end
+código 2
+
+mov A, 1
+mov B, 1
+mov C, 0
+label 200
+mov D, B
+add B, C
+mov C, D
+mov @A, B
+inc A
+A <> 2040? jump 200: 0
+end
+código 3
+
 mov 0x0001, 80
 label 1
 mov A, 3
@@ -5,12 +29,18 @@ inc 0x0001
 label 20
 mov @A, 27
 inc A
-A < 1280 ? jump 20: 0
+A < 16300 ? jump 20: 0
 label 15
 inc 0x0001
 0x0001 >= 90? 0: jump 15
 mov D, 24
 end
+código 1
+
+
+
+
+
 
 mov A, 0
 mov B, 68

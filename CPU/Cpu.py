@@ -106,7 +106,8 @@ class Cpu(threading.Thread):
 
     def processar(self, instrucao):
         if instrucao[0] == Consts.INSTRUCOES["end"].codigo:
-            # self.cache.atualizar_todos()
+            self.cache.atualizar_todos()
+
             Consts.running = False
             self.registradores["CI"] = -1
             self.barramento.exibir_dados()
@@ -197,6 +198,7 @@ class Cpu(threading.Thread):
         else:
             self.clean_loops()
             self.tipoSinal = Consts.T_L_INSTRUCAO
+            self.cache.atualizar_todos()
 
     def clean_loops(self):
         self.loops = []

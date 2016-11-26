@@ -34,7 +34,8 @@ class CacheLRU:
 
     def get(self, pos):
         if pos in self.cache_dict:
-            self.inc_hit(pos)
+            self.inc_hit()
+            self.update_info(pos)
             return self.cache_dict[pos].dado
         else:
             self.inc_miss()
@@ -44,50 +45,57 @@ class CacheLRU:
         if pos not in self.cache_dict:
             raise MemoryError("Pos de memoria nao esta em cache")
 
+        self.in_dict -= get_data_size(self.cache_dict[pos].dado)
+
         self.cache_dict[pos].dado = dado
-        self.inc_hit(pos)
+
+        self.in_dict += get_data_size(dado)
+
+        self.update_info(pos)
 
     def add(self, pos, dado):
         if pos in self.cache_dict:
             self.update(pos, dado)
+
+            if self.cache_dict[pos].vezes_usado >= Consts.LIMITE_DE_ATUALIZACOES:
+                self.cache_dict[pos].vezes_usado = 1
+                self.atualizar_na_memoria(pos)
         else:
-            self.inc_miss()
             if self.cabe(dado):
                 self.cache_dict[pos] = CacheCelula(dado)
                 self.in_dict += get_data_size(dado)
             else:
                 if get_data_size(dado) <= self.tamanho:
-                    removido = None
-                    for key, value in self.cache_dict.iteritems():
-                        if removido is None or value.data < self.cache_dict[removido].data:
-                            removido = key
+                    while not self.cabe(dado):
+                        removido = None
+                        for key, value in self.cache_dict.iteritems():
+                            if removido is None or value.data < self.cache_dict[removido].data:
+                                removido = key
 
-                    self.remover(removido)
+                        self.remover(removido)
 
                     self.cache_dict[pos] = CacheCelula(dado)
                     self.in_dict += get_data_size(dado)
+                    self.atualizar_na_memoria(pos)
                 else:
                     self.atualizar(pos, dado)
-                    return
 
-        if self.cache_dict[pos].vezes_usado >= Consts.LIMITE_DE_ATUALIZACOES:
-            self.cache_dict[pos].vezes_usado = 1
-            self.atualizar_na_memoria(pos)
-
-    def inc_hit(self, pos):
+    def inc_hit(self):
         self.hit += 1
-        self.cache_dict[pos].data = time.time()
-        self.cache_dict[pos].vezes_usado += 1
 
     def inc_miss(self):
         self.miss += 1
+
+    def update_info(self, pos):
+        self.cache_dict[pos].data = time.time()
+        self.cache_dict[pos].vezes_usado += 1
 
     def percemhit(self):
         return int((self.hit / (self.hit + self.miss + 0.0))*100)
 
     def remover(self, pos):
         self.atualizar_na_memoria(pos)
-        self.in_dict -= get_data_size(self.cache_dict.pop(pos))
+        self.in_dict -= get_data_size(self.cache_dict.pop(pos).dado)
 
     def cabe(self, dado):
         return (self.in_dict + get_data_size(dado)) <= self.tamanho
@@ -122,7 +130,8 @@ class CacheLFU:
 
     def get(self, pos):
         if pos in self.cache_dict:
-            self.inc_hit(pos)
+            self.inc_hit()
+            self.update_info(pos)
             return self.cache_dict[pos].dado
         else:
             self.inc_miss()
@@ -131,43 +140,47 @@ class CacheLFU:
     def update(self, pos, dado):
         if pos not in self.cache_dict:
             raise MemoryError("Pos de memoria nao esta em cache")
-
+        self.in_dict -= get_data_size(self.cache_dict[pos].dado)
         self.cache_dict[pos].dado = dado
-        self.inc_hit(pos)
+        self.in_dict += get_data_size(dado)
+
+        self.update_info(pos)
 
     def add(self, pos, dado):
         if pos in self.cache_dict:
             self.update(pos, dado)
+            if self.cache_dict[pos].vezes_usado % Consts.LIMITE_DE_ATUALIZACOES == 0:
+                self.atualizar_na_memoria(pos)
         else:
-            self.inc_miss()
             if self.cabe(dado):
                 self.cache_dict[pos] = CacheCelula(dado)
                 self.in_dict += get_data_size(dado)
             else:
                 if get_data_size(dado) <= self.tamanho:
-                    removido = None
-                    for key, value in self.cache_dict.iteritems():
-                        if removido is None or value.vezes_usado <= self.cache_dict[removido].vezes_usado:
-                            if removido is not None and value.vezes_usado == self.cache_dict[removido].vezes_usado:
-                                if value.data < self.cache_dict[removido].data:
+                    while not self.cabe(dado):
+                        removido = None
+                        for key, value in self.cache_dict.iteritems():
+                            if removido is None or value.vezes_usado <= self.cache_dict[removido].vezes_usado:
+                                if removido is not None and value.vezes_usado == self.cache_dict[removido].vezes_usado:
+                                    if value.data < self.cache_dict[removido].data:
+                                        removido = key
+                                else:
                                     removido = key
-                            else:
-                                removido = key
 
-                    self.remover(removido)
+                        self.remover(removido)
 
                     self.cache_dict[pos] = CacheCelula(dado)
                     self.in_dict += get_data_size(dado)
+                    self.atualizar_na_memoria(pos)
                 else:
                     self.atualizar(pos, dado)
                     return
 
-        if self.cache_dict[pos].vezes_usado % Consts.LIMITE_DE_ATUALIZACOES == 0:
-            self.atualizar_na_memoria(pos)
-
-    def inc_hit(self, pos):
-        self.hit += 1
+    def update_info(self, pos):
         self.cache_dict[pos].vezes_usado += 1
+
+    def inc_hit(self):
+        self.hit += 1
 
     def inc_miss(self):
         self.miss += 1
@@ -177,7 +190,7 @@ class CacheLFU:
 
     def remover(self, pos):
         self.atualizar_na_memoria(pos)
-        self.in_dict -= get_data_size(self.cache_dict.pop(pos))
+        self.in_dict -= get_data_size(self.cache_dict.pop(pos).dado)
 
     def cabe(self, dado):
         return (self.in_dict + get_data_size(dado)) <= self.tamanho
@@ -219,7 +232,8 @@ class CacheCoolDown:
         self.dict_lock.acquire()
 
         if pos in self.cache_dict:
-            self.inc_hit(pos)
+            self.inc_hit()
+            self.update_info(pos)
             self.dict_lock.release()
             return self.cache_dict[pos].dado
         else:
@@ -234,48 +248,51 @@ class CacheCoolDown:
         self.in_dict -= get_data_size(self.cache_dict[pos].dado)
         self.cache_dict[pos].dado = dado
         self.in_dict += get_data_size(dado)
-        self.inc_hit(pos)
+        self.update_info(pos)
 
     def add(self, pos, dado):
         self.dict_lock.acquire()
 
         if pos in self.cache_dict:
             self.update(pos, dado)
+
+            if self.cache_dict[pos].vezes_usado % Consts.LIMITE_DE_ATUALIZACOES == 0:
+                self.atualizar_na_memoria(pos)
         else:
-            self.inc_miss()
             if self.cabe(dado):
                 self.cache_dict[pos] = CacheCelula(dado)
                 self.in_dict += get_data_size(dado)
             else:
                 if get_data_size(dado) <= self.tamanho:
-                    removido = None
-                    for key, value in self.cache_dict.iteritems():
-                        if removido is None or value.data <= self.cache_dict[removido].data:
-                            if removido is not None and value.data == self.cache_dict[removido].data:
-                                if value.vezes_usado < self.cache_dict[removido].vezes_usado:
+                    while not self.cabe(dado):
+                        removido = None
+                        for key, value in self.cache_dict.iteritems():
+                            if removido is None or value.data <= self.cache_dict[removido].data:
+                                if removido is not None and value.data == self.cache_dict[removido].data:
+                                    if value.vezes_usado < self.cache_dict[removido].vezes_usado:
+                                        removido = key
+                                else:
                                     removido = key
-                            else:
-                                removido = key
 
-                    self.remover(removido)
+                        self.remover(removido)
 
                     self.cache_dict[pos] = CacheCelula(dado)
                     self.in_dict += get_data_size(dado)
+                    self.atualizar_na_memoria(pos)
                 else:
                     self.atualizar(pos, dado)
 
                     self.dict_lock.release()
                     return
 
-        if self.cache_dict[pos].vezes_usado % Consts.LIMITE_DE_ATUALIZACOES == 0:
-            self.atualizar_na_memoria(pos)
-
         self.dict_lock.release()
 
-    def inc_hit(self, pos):
-        self.hit += 1
+    def update_info(self, pos):
         self.cache_dict[pos].vezes_usado += 1
         self.cache_dict[pos].data = time.time()
+
+    def inc_hit(self):
+        self.hit += 1
 
     def inc_miss(self):
         self.miss += 1

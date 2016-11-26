@@ -3,6 +3,7 @@ import threading
 import time
 import sys
 from ILOGS.Logs import LogNone
+from COMPUTADOR import clockcalc as cc
 
 
 class Barramento(threading.Thread):
@@ -23,6 +24,8 @@ class Barramento(threading.Thread):
         self.dadosLock = threading.Lock()
         self.fila_dados = []
         self.dados_bytes = 0
+
+        self.tempo_de_inicio = 0
 
     # Estrutura de sinais
     def enviar_sinal(self, sinal):
@@ -48,21 +51,12 @@ class Barramento(threading.Thread):
 
         self.dadosLock.release()
 
-    def isfilas_vazias(self):
-        # if self.fila_dados:
-        #     return False
-        # if self.fila_sinal:
-        #     return False
-        # if self.fila_endereco:
-        #     return False
-        return True
-
     def run(self):
         self.log.write_line("Barramento => start")
 
         lasttime = time.time()
         totaltime = 0
-        while Consts.running or not self.isfilas_vazias():
+        while Consts.running:
             self.disparar_sinais()
 
             self.disparar_enderecos()
@@ -120,7 +114,13 @@ class Barramento(threading.Thread):
         self.logi.write_line("fila_enderecos: " + str(self.enderecos_bytes))
         self.logi.write_line("fila_dados: " + str(self.dados_bytes))
         tempo = time.localtime()
-        self.logi.write_line("tempo: " + '{0:02}:{1:02}:{2:02}'.format(tempo.tm_hour, tempo.tm_min, tempo.tm_sec))
+        tempo = '{0:02}:{1:02}:{2:02}'.format(tempo.tm_hour, tempo.tm_min, tempo.tm_sec)
+        # self.logi.write_line("tempo: " + tempo)
+
+        if not self.tempo_de_inicio:
+            self.tempo_de_inicio = tempo
+
+        self.logi.write_line(cc.diference(tempo, self.tempo_de_inicio))
 
         # threads
         self.logi.write_line("Threads: " + str([i.name for i in threading.enumerate()]))

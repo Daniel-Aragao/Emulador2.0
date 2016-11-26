@@ -15,14 +15,14 @@ larguraBanda = (clock * larguraBarramento) // 8
 # tamanho da memoria de 32* 2**0 a 32 * 2**19 ( 32 * 2**X)
 MEMORIA_X_MIN = 0
 MEMORIA_X_MAX = 19
-MEMORIA_X = 7  # 2
+MEMORIA_X = 7
 MEMORIA_CODE_SLICE = 1.0/3
 
 # cache em porcentagem da memoria 1.0 a 1.1
 CACHE_TAX_MIN = 0.0
 CACHE_TAX_MAX = 0.1
-CACHE_TAX = 0.1
-LIMITE_DE_ATUALIZACOES = 1
+CACHE_TAX = 0.05
+LIMITE_DE_ATUALIZACOES = 4
 CACHE_COOLDOWN = 0.1
 
 # lru = 1, lfu = 2, cooldown = 3
